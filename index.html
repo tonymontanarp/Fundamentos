@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fundamentos</title>
+<style>
+:root{
+  --ink:#0B0E11; --surface:#14181D; --line:#232A31; --steel:#8A97A3;
+  --text:#E6EAEE; --amber:#E8A33D; --amber-soft:rgba(232,163,61,.13);
+  --jade:#7FD1B9;
+  --display:'Avenir Next Condensed','HelveticaNeue-CondensedBold','Arial Narrow',system-ui,sans-serif;
+  --body:-apple-system,'SF Pro Text',system-ui,'Segoe UI',sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,'Roboto Mono',monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.45;
+  padding:0 20px calc(88px + env(safe-area-inset-bottom)) 20px;max-width:640px;margin:0 auto;-webkit-font-smoothing:antialiased}
+.eyebrow{font-family:var(--display);text-transform:uppercase;letter-spacing:.18em;font-size:13px;color:var(--steel);
+  display:flex;gap:10px;align-items:baseline;justify-content:space-between}
+.eyebrow b{color:var(--amber);font-weight:600;letter-spacing:.18em}
+h1{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:40px;line-height:.95;margin:20px 0 10px;font-weight:600}
+h2{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:20px;margin:26px 0 4px;font-weight:600}
+.lede{color:var(--steel);font-size:15px;margin:0 0 22px}
+.lede b{color:var(--text);font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+.who{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--amber);margin-bottom:7px}
+.card p{margin:0;font-size:14.5px;color:var(--steel);line-height:1.5}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pair .card{margin:0}
+.qwrap{border-left:3px solid var(--amber);padding-left:15px;margin:14px 0 4px}
+.q{font-size:22px;line-height:1.25;margin:0;font-weight:500}
+.counts{font-family:var(--mono);font-size:12px;color:var(--steel);margin:10px 0 0;line-height:1.6}
+.conta{font-family:var(--mono);font-size:12.5px;color:var(--steel);border-top:1px solid var(--line);margin-top:14px;padding-top:11px}
+.conta b{color:var(--text);font-weight:500}
+.gate{height:2px;background:var(--line);margin:16px 0 5px;overflow:hidden;border-radius:2px}
+.gate i{display:block;height:100%;width:0;background:var(--amber)}
+.gatelabel{font-family:var(--mono);font-size:11.5px;color:var(--steel);letter-spacing:.04em}
+label.fl{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);margin:14px 0 4px}
+textarea,input[type=text]{width:100%;background:#0E1216;color:var(--text);border:1px solid var(--line);border-radius:12px;
+  padding:13px;font-family:var(--body);font-size:17px;line-height:1.4;margin-top:2px}
+textarea{min-height:96px;resize:vertical}
+input[type=text]{font-family:var(--mono)}
+textarea:disabled,input:disabled{opacity:.42}
+textarea:focus,input:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:transparent}
+.voz{display:flex;gap:10px;align-items:flex-start;margin:13px 0 2px;cursor:pointer}
+.voz input{width:22px;height:22px;accent-color:var(--amber);margin:0;flex:0 0 auto}
+.voz span{font-size:14px;color:var(--steel);line-height:1.35}
+.row{display:flex;gap:9px;margin-top:13px;flex-wrap:wrap}
+button{font-family:var(--body);font-size:16px;font-weight:600;border-radius:12px;padding:15px 18px;border:1px solid var(--line);
+  background:transparent;color:var(--text);cursor:pointer;flex:1;min-width:130px}
+button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+button.primary{background:var(--amber);color:#14100A;border-color:var(--amber)}
+button.primary:disabled{opacity:.3;cursor:not-allowed}
+button.ghost{color:var(--steel);font-weight:500}
+.readout{font-family:var(--mono);font-size:13.5px;line-height:1.62;background:#0E1216;border:1px solid var(--line);
+  border-left:3px solid var(--amber);border-radius:0 12px 12px 0;padding:13px 15px;margin:13px 0 0;white-space:pre-wrap}
+.readout .k{color:var(--steel)} .readout .hit{color:var(--amber)} .readout .ok{color:var(--jade)}
+details{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+summary{font-family:var(--mono);font-size:12.5px;color:var(--steel);cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary:before{content:"+ ";color:var(--amber)}
+details[open] summary:before{content:"− "}
+.ex{font-size:14.5px;margin:9px 0 0;line-height:1.5}
+.ex.bad{color:var(--steel)} .ex.good{color:var(--text)}
+.ex em{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);display:block}
+.gesto{border-color:var(--amber);background:var(--amber-soft)}
+.gesto p{margin:0;font-size:18px;line-height:1.3;color:var(--text)}
+.atom{font-size:20px;line-height:1.3;margin:12px 0 0;font-weight:500}
+.chain{font-family:var(--mono);font-size:12px;color:var(--steel);margin-top:9px;letter-spacing:.02em}
+.chain b{color:var(--amber);font-weight:400}
+.loop{font-family:var(--mono);font-size:13px;line-height:1.9;color:var(--steel);margin:10px 0 0}
+.loop b{color:var(--text);font-weight:500}
+.menu{display:block;width:100%;text-align:left;margin:9px 0;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--surface)}
+.menu strong{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:19px;display:block;font-weight:600}
+.menu span{font-size:13.5px;color:var(--steel);display:block;margin-top:3px;line-height:1.4}
+.menu.done{border-color:var(--jade)}
+.menu.done strong:after{content:" ✓";color:var(--jade)}
+.ciclo{display:flex;gap:5px;margin:14px 0 8px}
+.ciclo>div{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 5px;text-align:center}
+.ciclo>div.on{border-color:var(--amber);background:var(--amber-soft)}
+.ciclo b{display:block;font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:11.5px;color:var(--steel);font-weight:600}
+.ciclo>div.on b{color:var(--amber)}
+.ciclo span{font-size:10px;color:var(--steel);line-height:1.2;display:block;margin-top:3px}
+.anc{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--jade);border-radius:12px;padding:13px;margin:16px 0}
+.anc .who{color:var(--jade)}
+.anc p{margin:0 0 8px}
+.anc input{margin-top:0}
+.anc .fixa{color:var(--jade);font-family:var(--mono);font-size:12.5px}
+.tr{border-top:1px solid var(--line);padding:11px 0}
+.tr .tq{font-size:12.5px;color:var(--steel);margin:0 0 3px;font-family:var(--mono)}
+.tr .ta{font-size:15.5px;margin:0}
+.plan{border-left:3px solid var(--amber);padding:2px 0 2px 15px;margin:16px 0}
+.plan .pn{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--amber);text-transform:uppercase}
+.plan .pt{font-size:18px;margin:3px 0 2px;line-height:1.3}
+.plan .pw{font-size:13.5px;color:var(--steel);margin:0}
+.hr{height:1px;background:var(--line);margin:24px 0}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(11,14,17,.94);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);padding:11px 20px calc(11px + env(safe-area-inset-bottom));display:flex;gap:6px;max-width:640px;margin:0 auto}
+.met{flex:1;text-align:center}
+.met b{font-family:var(--display);font-size:25px;line-height:1;display:block;font-weight:600}
+.met span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel)}
+.met.on b{color:var(--amber)}
+.back{font-family:var(--mono);font-size:12.5px;color:var(--steel);background:none;border:none;padding:14px 0 0;flex:0;min-width:0;text-align:left}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="bar">
+  <div class="met" id="m-camadas"><b>0</b><span>camadas</span></div>
+  <div class="met" id="m-gestos"><b>0</b><span>gestos</span></div>
+  <div class="met" id="m-dados"><b>0</b><span>dados</span></div>
+  <div class="met" id="m-ritmo"><b>0</b><span>ritmo</span></div>
+</div>
+<script>
+"use strict";
+
+/* ═══════════ MENTORES ═══════════ */
+const MENTORES = {
+musk:{nome:"Musk", sub:"quebra até o átomo. premissa, não slogan.", cor:"desmontar", camadas:[
+ {tag:"MUSK 01 — A FRASE CRUA", q:"Qual frase você trata como verdade? Escreve ela crua, sem defesa.",
+  conta:"Uma frase. Do jeito que ela aparece na cabeça, não do jeito apresentável.",
+  bad:"Tenho dificuldade de manter constância.", good:"Mesmo estudando eu não aprendo.",
+  menor:"Completa só isso: \"Eu sempre ______.\"", gesto:"Fala a frase em voz alta, do jeito que dói. Uma vez.", curtaOk:true},
+ {tag:"MUSK 02 — A VOZ", q:"Quem falou isso primeiro em voz alta, perto de você? Nome, e a frase dele.",
+  conta:"Uma pessoa e uma frase. Não a categoria (\"a sociedade\", \"autoridade\").",
+  bad:"Foi a programação que passaram pra todo mundo.", good:"Meu pai, gritando \"você é burro\", quando eu errava conta.",
+  menor:"Foi em casa, na escola, ou no feed? Escolhe um e me dá o nome.", pessoa:true},
+ {tag:"MUSK 03 — O FATO QUE SOBRA", q:"Tira opinião, medo e costume. O que sobra que um cético aceitaria?",
+  conta:"Só o que uma câmera teria filmado. Se ninguém confere, não é fato.",
+  bad:"Sobra que ele não sabia ensinar e estava frustrado.", good:"Toda vez que eu errava, a resposta que eu recebia era grito.",
+  menor:"O que dá pra filmar disso? Só a cena, sem motivo."},
+ {tag:"MUSK 04 — AS PEÇAS", q:"Isso é feito de quê? Lista as peças. Sem metáfora.",
+  conta:"Peças, não sentimentos. Uma linha por peça.",
+  bad:"É feito de traumas e bloqueios internos.", good:"1. Erro na conta. 2. Grito. 3. A palavra burro. 4. Repetição por anos.",
+  menor:"Cita uma peça só. A mais óbvia."},
+ {tag:"MUSK 05 — ONDE QUEBRA", q:"Um caso real em que o contrário aconteceu. Data e cena.",
+  conta:"Um episódio com quando e o quê. Não \"às vezes acontece\".",
+  bad:"Às vezes eu aprendo sem estudar do jeito convencional.", good:"Ontem, fazendo café: aprendi solubilidade sem abrir livro.",
+  menor:"Última vez que você aprendeu algo sem sentar pra estudar. Qual foi?"},
+ {tag:"MUSK 06 — FRASE DE CRIANÇA", q:"Sem nome bonito. Formato: \"Eu ______. Aí eu ______.\"",
+  conta:"Criança de 7 anos repete. Câmera filma. Zero porquê.",
+  bad:"Tenho baixa tolerância ao erro e pouca presença.", good:"Eu erro. Aí eu paro.",
+  menor:"O que acontece no segundo seguinte ao erro? Uma palavra basta.",
+  gesto:"Fala a frase em voz alta três vezes, andando.", curtaOk:true, chave:"frase"},
+ {tag:"MUSK 07 — O CRITÉRIO", q:"Antes do teste: o que MATA essa frase e o que PROVA ela?",
+  conta:"Declarado agora, antes de testar. Senão você explica o resultado depois.",
+  bad:"Vou ver se consigo e depois avalio.", good:"Morre se eu errar e continuar até o fim. Vive se eu parar no meio.",
+  menor:"Completa: \"Morre se ______. Vive se ______.\"", chave:"criterio"},
+ {tag:"MUSK 08 — O NÚMERO", q:"Quantas tentativas? Escolhe um número agora.",
+  conta:"Um número. Número errado ainda é testável. Nenhum número não é.",
+  bad:"Até eu sentir que concluí.", good:"5 perguntas. Respondo as 5 mesmo errando todas.",
+  menor:"Chuta. 3, 5 ou 10?", curtaOk:true},
+ {tag:"MUSK 09 — O RESULTADO", q:"Fez o teste. O que aconteceu no mundo material?",
+  conta:"Fatos. Nada de como você se sentiu.",
+  bad:"Foi estranho mas senti que evoluí.", good:"Errei 3 de 5. Cheguei na quinta. Não fechei nada.",
+  menor:"Quantos você errou, e chegou no fim?", gesto:"Se ainda não testou: faz agora, 10 minutos. Volta depois."}
+]},
+branson:{nome:"Branson", sub:"diz sim pequeno. aprende no impacto. anota gente.", cor:"fazer", camadas:[
+ {tag:"BRANSON 01 — O SIM PEQUENO", q:"Qual a menor ação viável que cabe em 10 minutos, hoje?",
+  conta:"Pequena a ponto de ser ridícula. Se precisa de preparo, ainda é grande.",
+  bad:"Montar uma rotina de estudos consistente.", good:"Ler 3 frases em inglês em voz alta antes de ligar pro Troy.",
+  menor:"Corta pela metade. E de novo. O que sobrou?", chave:"sim"},
+ {tag:"BRANSON 02 — O GESTO", q:"Levanta e faz agora. Volta e escreve o que o corpo fez.",
+  conta:"Verbo no passado. Fiz, não vou fazer.",
+  bad:"Vou fazer mais tarde quando estiver disposto.", good:"Abri o porta-malas e conferi o macaco. 4 minutos.",
+  menor:"Faz a versão de 60 segundos. Qualquer uma.", gesto:"Agora. De pé. Sem preparar."},
+ {tag:"BRANSON 03 — O IMPACTO", q:"O que mudou no mundo por causa disso? Só o material.",
+  conta:"Objeto, pessoa, número, tempo. Se não dá pra apontar, não mudou ainda.",
+  bad:"Me senti mais confiante e no controle.", good:"O pneu está calibrado. Ele respondeu em 2 minutos.",
+  menor:"Alguma coisa saiu do lugar? O quê?"},
+ {tag:"BRANSON 04 — GENTE", q:"Quem entrou nisso? Nome, e o que a pessoa fez ou disse.",
+  conta:"Nome próprio. Branson anota gente, não conceito.",
+  bad:"Conversei com um amigo sobre o assunto.", good:"Troy. Respondeu em inglês e eu entendi 80% sem traduzir.",
+  menor:"Se ninguém entrou, quem é a próxima pessoa? Só o nome.", pessoa:true, curtaOk:true},
+ {tag:"BRANSON 05 — A FRASE NOVA", q:"A substituta da frase velha. Filmável. E qual prova você já tem?",
+  conta:"Frase + episódio de hoje que prova. Sem prova, é slogan.",
+  bad:"Erro é dado, não fracasso. Vou encarar diferente.", good:"Eu erro. Aí eu sigo pra próxima. Prova: as 5 contas de hoje.",
+  menor:"Só a frase: \"Eu ______. Aí eu ______.\"", gesto:"Fala em voz alta. Depois manda ela pra alguém.", chave:"nova"}
+]},
+naval:{nome:"Naval", sub:"fundação antes de fronteira. alavanca. jogo longo.", cor:"compor", camadas:[
+ {tag:"NAVAL 01 — CONHECIMENTO ESPECÍFICO", q:"O que você sabe fazer que ninguém consegue te ensinar a fazer?",
+  conta:"Algo que você aprendeu por obsessão ou brincando, não em curso. Se dá pra treinar alguém em 6 meses, não é isso.",
+  bad:"Sou bom em comunicação e criatividade.", good:"Consigo achar o ângulo que faz um desconhecido responder. Aprendi vendendo no fórum.",
+  menor:"O que você fazia à toa, sem ninguém mandar, e ficou bom?", chave:"especifico"},
+ {tag:"NAVAL 02 — ALAVANCA", q:"Qual hora de hoje se multiplica sozinha depois? E qual morre no fim do dia?",
+  conta:"Alavanca é código, mídia, produto: trabalha enquanto você dorme. Hora vendida não é alavanca.",
+  bad:"Trabalhei bastante o dia todo e produzi.", good:"Multiplica: gravei 1 vídeo. Morre: respondi 40 DMs na mão.",
+  menor:"O que você fez hoje que ainda estará rodando semana que vem?"},
+ {tag:"NAVAL 03 — O BÁSICO PULADO", q:"Qual fundamento você pulou por parecer básico demais?",
+  conta:"Naval: melhor estar na fundação que na fronteira. Fundamento é o que sustenta cem coisas em cima.",
+  bad:"Preciso estudar mais e me aprofundar nos temas.", good:"Nunca sentei pra entender razão. Uso porcentagem no chute desde sempre.",
+  menor:"Que conta ou conceito você finge que sabe e refaz no dedo toda vez?", chave:"basico"},
+ {tag:"NAVAL 04 — JOGO LONGO", q:"Com quem você está jogando o jogo longo? Nome, e há quanto tempo.",
+  conta:"Pessoa específica com quem os retornos compõem em anos, não em uma transação.",
+  bad:"Com gente que agrega e soma comigo.", good:"Troy, 3 anos. Cada conversa fica melhor que a anterior.",
+  menor:"Quem você quer que ainda esteja por perto em 10 anos? Um nome.", pessoa:true, curtaOk:true}
+]},
+ferriss:{nome:"Ferriss", sub:"dose mínima. 20%. medo escrito. mede.", cor:"testar", camadas:[
+ {tag:"FERRISS 01 — DOSE MÍNIMA EFICAZ", q:"Qual a menor dose que ainda produz o efeito? O que você faz a mais que não muda nada?",
+  conta:"Água ferve a 100°. 120° não ferve mais rápido, só gasta gás.",
+  bad:"Preciso estudar com mais profundidade e frequência.", good:"3 frases em voz alta bastam. Ler o capítulo inteiro não mudou nada.",
+  menor:"Corta pela metade. Ainda funciona? Corta de novo.", chave:"dose"},
+ {tag:"FERRISS 02 — OS 20%", q:"Quais 20% das peças dão 80% do resultado aqui? No máximo três.",
+  conta:"No máximo três, listadas. Se você listou seis, não escolheu.",
+  bad:"Tudo é importante e se conecta de alguma forma.", good:"1. Falar em voz alta. 2. Associar com objeto. 3. Usar no mesmo dia.",
+  menor:"Se só uma peça pudesse ficar, qual?"},
+ {tag:"FERRISS 03 — MEDO ESCRITO", q:"Se der errado do pior jeito: o que acontece exatamente, e como você desfaz?",
+  conta:"Duas colunas. O pior caso concreto, e o custo de voltar atrás. Medo sem nome é grande. Com nome, tem tamanho.",
+  bad:"Tenho medo de fracassar e perder tempo.", good:"Pior: erro na frente do Troy e passo vergonha. Desfaço: rio e refaço a frase.",
+  menor:"O que exatamente você teme que aconteça? Uma cena.", gesto:"Fala o pior caso em voz alta. Escuta o tamanho real dele."},
+ {tag:"FERRISS 04 — A MEDIDA", q:"Qual número você vai olhar amanhã pra saber se funcionou?",
+  conta:"Um número que existe fora da sua cabeça. Sensação não é medida.",
+  bad:"Vou ver se me sinto mais confiante e presente.", good:"Quantas das 5 perguntas eu respondi sem parar. Ontem: 5.",
+  menor:"O que dá pra contar? Vezes, minutos, quantidade.", curtaOk:true, chave:"medida"}
+]}};
+
+/* ═══════════ FUNDAÇÃO: ÁTOMOS ═══════════ */
+const ATOMOS = {
+mat:{nome:"Matemática", sub:"tudo aqui é a mesma peça em roupa diferente: comparar.", itens:[
+ {id:"unidade", tag:"MAT 01 — UNIDADE", atomo:"Número é quantas vezes a unidade cabe dentro da coisa. Trocou a unidade, trocou o número — a coisa não mudou.",
+  feito:[], onde:"Onde você escolheu uma unidade hoje sem perceber? (kg, minuto, gole, passo)",
+  calc:{q:"Você quer 60 kg na barra. Só tem anilhas de 20. Quantas anilhas?", r:3, tol:0,
+   caminho:"60 ÷ 20 = 3. Você não somou nada: perguntou quantas vezes 20 cabe em 60. Isso é divisão, e é a mesma pergunta de razão na camada seguinte."}},
+ {id:"razao", tag:"MAT 02 — RAZÃO", atomo:"Razão é quantas vezes uma coisa cabe na outra. É a pergunta que gera divisão, fração, porcentagem e velocidade — todas.",
+  feito:["unidade"], onde:"Que duas coisas você compara todo dia sem chamar de razão?",
+  calc:{q:"Seu café é 20 g de pó pra 300 ml de água. Se usar 30 g, quantos ml pra manter o mesmo gosto?", r:450, tol:0,
+   caminho:"300 ÷ 20 = 15 ml por grama. Essa é a razão, e ela não muda. 30 × 15 = 450. Regra de três é só isso: achar a razão e reaplicar."}},
+ {id:"porcento", tag:"MAT 03 — PORCENTAGEM", atomo:"Porcentagem é razão com 100 embaixo. Nada de novo: é razão vestida pra comparar coisas de tamanhos diferentes.",
+  feito:["razao"], onde:"Onde você já usa porcentagem no olho, sem calcular?",
+  calc:{q:"Seu agachamento subiu de 80 kg pra 100 kg. Aumento de quantos por cento?", r:25, tol:0,
+   caminho:"Subiu 20. Comparado com o começo: 20 ÷ 80 = 0,25 = 25%. O de baixo é sempre de onde você partiu — trocar isso é o erro mais comum."}},
+ {id:"assimetria", tag:"MAT 04 — A VOLTA NÃO VOLTA", atomo:"Cair 20% e subir 20% não te devolve ao ponto de partida. A subida usa uma base menor. Queda e recuperação não são simétricas.",
+  feito:["porcento"], onde:"Onde você já sentiu isso — audiência, dinheiro, carga, peso?",
+  calc:{q:"100 kg. Cai 20%, depois sobe 20%. Termina com quanto?", r:96, tol:0,
+   caminho:"100 − 20% = 80. Agora 20% de 80 = 16, não 20. 80 + 16 = 96. Faltam 4. Por isso perder dói mais que ganhar do mesmo tamanho."}},
+ {id:"composto", tag:"MAT 05 — COMPOSTO", atomo:"Quando o resultado vira base da próxima rodada, o crescimento deixa de somar e passa a multiplicar. É a diferença entre reta e curva.",
+  feito:["porcento"], onde:"O que na sua vida hoje soma, e o que multiplica?",
+  calc:{q:"1% melhor por dia durante um ano. No fim você está quantas vezes melhor? (número inteiro)", r:37, tol:4,
+   caminho:"1,01 elevado a 365 ≈ 37,8. Somando 1% por dia daria 4,65. A diferença toda vem de a base crescer junto. Alavanca do Naval é isso em forma de trabalho."}},
+ {id:"media", tag:"MAT 06 — MÉDIA", atomo:"Média é redistribuir tudo em partes iguais. Ela responde uma pergunta e esconde outra: a variação.",
+  feito:["razao"], onde:"Que média sobre você mente? (treino, sono, faturamento)",
+  calc:{q:"Quatro treinos de 60 min e um de 10 min. Média por treino, em minutos?", r:50, tol:0,
+   caminho:"(60×4 + 10) ÷ 5 = 250 ÷ 5 = 50. A média diz 50 e nenhum treino foi de 50. Ela apaga o dia de 10 — e era esse o dado interessante."}},
+ {id:"espaco", tag:"MAT 07 — ESPAÇO AMOSTRAL", atomo:"Probabilidade é casos que servem dividido por casos possíveis. Errar a conta é raro. Errar a lista de casos possíveis é o normal.",
+  feito:["razao"], onde:"Baralho: 52 cartas, 4 naipes, 13 de cada. Onde mais você tem um conjunto fechado assim?",
+  calc:{q:"Baralho de 52. Qual a chance de sair uma figura (J, Q, K)? Em % inteiro.", r:23, tol:1,
+   caminho:"São 3 figuras × 4 naipes = 12 cartas. 12 ÷ 52 = 0,2307 ≈ 23%. A parte difícil foi contar 12, não dividir. Isso vale pra toda decisão: o erro mora na lista, não na conta."}},
+ {id:"indep", tag:"MAT 08 — INDEPENDÊNCIA", atomo:"Se o resultado anterior não muda o próximo sorteio, a carta não lembra de você. Sequência não cria dívida nem crédito.",
+  feito:["espaco"], onde:"Onde você já achou que estava \"na hora de virar\"?",
+  calc:{q:"Você tirou 3 copas seguidas, devolvendo e embaralhando cada vez. Chance da próxima ser copas, em %?", r:25, tol:0,
+   caminho:"13 ÷ 52 = 25%. Igual à primeira. O baralho não tem memória. Se você NÃO devolve, aí sim muda — e essa diferença entre com e sem reposição é metade da probabilidade prática."}},
+ {id:"esperado", tag:"MAT 09 — VALOR ESPERADO", atomo:"Valor esperado é a média dos resultados pesada pela chance de cada um. É como se compara duas apostas sem depender de opinião.",
+  feito:["media","espaco"], onde:"Que decisão sua tem chance e tamanho diferentes? (post, oferta, teste)",
+  calc:{q:"50% de ganhar 100 e 50% de perder 60. Valor esperado?", r:20, tol:0,
+   caminho:"(0,5 × 100) + (0,5 × −60) = 50 − 30 = 20. Positivo, então repetir muitas vezes tende a somar. Uma vez só, não: aí a variância manda, e é ela que quebra gente."}},
+ {id:"ordem", tag:"MAT 10 — ORDEM DE GRANDEZA", atomo:"Antes de calcular certo, acerte o tamanho. Errar por 2 vezes é ajuste; errar por 100 vezes é decisão errada.",
+  feito:["unidade"], onde:"Que número você usa sem nunca ter estimado o tamanho dele?",
+  calc:{q:"3 horas de celular por dia. Quantas horas por ano? (inteiro)", r:1095, tol:60,
+   caminho:"3 × 365 ≈ 1100 horas. Isso é mais de 45 dias inteiros, ou 6 semanas de trabalho. A conta é fácil; ninguém faz. Fermi é isso: estimar em vez de sentir."}}
+]},
+fis:{nome:"Física", sub:"tudo aqui é a mesma peça: energia mudando de forma.", itens:[
+ {id:"grandeza", tag:"FIS 01 — GRANDEZA", atomo:"Medida é número mais unidade. Sozinho, o número não quer dizer nada. \"Pesado\" não é medida; 40 kg é.",
+  feito:[], onde:"O que você mede por sensação e podia medir por número?",
+  calc:null},
+ {id:"conserva", tag:"FIS 02 — CONSERVAÇÃO", atomo:"Energia não some nem aparece: muda de forma. Se sumiu do seu lado, foi pra outro — quase sempre virou calor.",
+  feito:["grandeza"], onde:"Onde você viu energia virar calor hoje sem prestar atenção?",
+  calc:null},
+ {id:"temp", tag:"FIS 03 — TEMPERATURA", atomo:"Temperatura é o quanto as partículas estão se agitando, em média. Quente não é uma substância: é velocidade.",
+  feito:["conserva"], onde:"Seu café: por que a água quente extrai mais que a fria?",
+  calc:null},
+ {id:"calor", tag:"FIS 04 — CALOR", atomo:"Calor é energia atravessando por causa de uma diferença de temperatura. Sem diferença, não há passagem. Quanto maior a diferença, mais rápido.",
+  feito:["temp"], onde:"O que na sua casa esfria rápido e o que esfria devagar? Por que a diferença?",
+  calc:null},
+ {id:"forca", tag:"FIS 05 — FORÇA", atomo:"Força é o que muda o movimento. Sem força resultante, o que está parado fica parado e o que anda continua andando.",
+  feito:["grandeza"], onde:"Onde você sentiu inércia hoje — no corpo, no carro, na cabeça?",
+  calc:{q:"Massa 100 kg. Usando g = 10, quantos newtons o peso faz pra baixo?", r:1000, tol:0,
+   caminho:"Peso = massa × g = 100 × 10 = 1000 N. Massa é quanta matéria tem; peso é a força que a gravidade faz nela. Na lua a massa é a mesma e o peso não."}},
+ {id:"trabalho", tag:"FIS 06 — TRABALHO", atomo:"Trabalho é força vezes a distância que ela percorreu. Segurar peso parado é esforço, mas trabalho físico é zero.",
+  feito:["forca"], onde:"Que exercício seu tem muita força e pouca distância? E o contrário?",
+  calc:{q:"Você levanta 1000 N por 0,5 m. Quantos joules?", r:500, tol:0,
+   caminho:"1000 × 0,5 = 500 J. Dobrar a amplitude dobra o trabalho com a mesma carga — é por isso que meio movimento com mais peso pode render menos que movimento inteiro."}},
+ {id:"potencia", tag:"FIS 07 — POTÊNCIA", atomo:"Potência é trabalho dividido por tempo. Mesmo trabalho em menos tempo é mais potência — e o corpo sente isso, não o total.",
+  feito:["trabalho"], onde:"Mesma série, tempos diferentes: onde isso muda seu treino?",
+  calc:{q:"500 J em 2 s contra 500 J em 5 s. Quantas vezes mais potência na primeira?", r:2.5, tol:0.1,
+   caminho:"250 W contra 100 W. 250 ÷ 100 = 2,5. O trabalho é idêntico; o que muda é a taxa. Toda vez que aparecer \"por tempo\", é taxa — igual à razão da matemática."}},
+ {id:"pressao", tag:"FIS 08 — PRESSÃO", atomo:"Pressão é força dividida pela área. Mesma força numa área menor concentra tudo — por isso faca afiada corta e cega amassa.",
+  feito:["forca"], onde:"Onde a área muda o efeito na sua vida? (alça, banco, sapato, pegada)",
+  calc:{q:"Mesma força em 100 cm² e depois em 1 cm². Quantas vezes mais pressão?", r:100, tol:0,
+   caminho:"Área caiu 100 vezes, então a pressão sobe 100 vezes. Nada foi acrescentado — só concentrado. Foco funciona igual: mesma energia, área menor."}},
+ {id:"polar", tag:"FIS 09 — AFINIDADE", atomo:"Semelhante dissolve semelhante. O detergente tem uma ponta que gosta de gordura e outra que gosta de água — por isso ele faz as duas conversarem.",
+  feito:["temp"], onde:"Você já derivou esse. Onde mais existe esse papel de ponte, entre duas coisas que não se misturam?",
+  calc:null},
+ {id:"alavanca", tag:"FIS 10 — ALAVANCA", atomo:"Força vezes distância do apoio se equilibra dos dois lados. Longe do apoio, pouca força faz muito. É a mesma ideia da alavanca do Naval, na versão física.",
+  feito:["trabalho"], onde:"Que exercício fica muito mais difícil só por afastar o peso do corpo?",
+  calc:{q:"Peso a 0,2 m do cotovelo exige X. A 0,4 m, exige quantas vezes X?", r:2, tol:0,
+   caminho:"Dobrou a distância, dobrou o torque. Nada mudou no peso. Braço estendido é sempre mais difícil por isso, não por fraqueza."}}
+]}};
+
+/* ═══════════ PSICOLOGIA E PERSUASÃO ═══════════ */
+const PSICO={
+armas:{nome:"As armas", sub:"os sete gatilhos do Cialdini. cada um aponta pra algo verdadeiro — ou não funciona duas vezes.", itens:[
+ {id:"reciprocidade", tag:"ARMA 01 — RECIPROCIDADE",
+  atomo:"Quem recebe primeiro sente dívida. O que dispara não é o valor do que você deu: é ter vindo antes, sem cobrança e feito sob medida pra pessoa.",
+  erro:"Dar depois de pedir. Aí vira pagamento, e pagamento não gera dívida nenhuma.",
+  conf:{q:"Você quer que o Troy revise seu texto. O que dispara reciprocidade?",
+   opts:["Pedir e prometer retribuir depois","Revisar algo dele antes, sem avisar que vai pedir","Elogiar bastante antes de pedir"],r:1,
+   why:"Vir antes e sem condição. Prometer retribuir é troca, e troca vira contrato — o contrato não gera dívida, só obrigação simétrica."},
+  campo:"Faz um favor pequeno, útil e específico pra uma pessoa hoje. Sem pedir nada e sem avisar que vai pedir.",
+  ajuste:{ok:"Funcionou. Sobe um nível: da próxima, faz o favor sob medida pra aquela pessoa. Favor genérico rende bem menos que favor personalizado.",
+   fechou:"Soou como compra. Ou foi grande demais, ou colou perto demais do pedido. Diminui o tamanho e aumenta a distância no tempo.",
+   nao:"Corta pela metade: manda uma informação útil de uma linha pra alguém. Isso já conta como primeiro."}},
+ {id:"coerencia", tag:"ARMA 02 — COMPROMISSO",
+  atomo:"Quem dá um sim pequeno tende a manter a linha depois. Não é por você: é porque a pessoa não quer ficar incoerente com ela mesma.",
+  erro:"Pedir o sim grande de cara e queimar a escada inteira.",
+  conf:{q:"Você quer vender uma mentoria. O primeiro passo mais forte é:",
+   opts:["Mandar a oferta completa com desconto","Fazer uma pergunta que ela responde sim com facilidade","Listar todos os seus resultados"],r:1,
+   why:"O sim pequeno abre a escada. A oferta completa é o último degrau — apresentada primeiro, ela só pode ser recusada."},
+  campo:"Numa conversa hoje, consegue um sim pequeno e verdadeiro antes de propor qualquer coisa.",
+  ajuste:{ok:"Boa. Próximo nível: faz o sim pequeno ser dito em voz alta ou escrito. Compromisso falado segura mais que compromisso pensado.",
+   fechou:"O sim pequeno provavelmente já era grande. Ele tem que custar quase nada e ser verdade — se a pessoa hesitou, era degrau alto.",
+   nao:"Usa uma pergunta de fato: \"você quer melhorar isso este mês?\" Se a resposta é sim óbvio, serve."}},
+ {id:"prova", tag:"ARMA 03 — PROVA SOCIAL",
+  atomo:"Na dúvida, a pessoa olha o que gente parecida com ela fez. Parecida é a palavra: número grande de gente diferente move pouco.",
+  erro:"Mostrar volume genérico em vez de um caso parecido com a pessoa que está na sua frente.",
+  conf:{q:"Um iniciante inseguro. O que move mais?",
+   opts:["\"Mais de 2 mil alunos já passaram por aqui\"","\"Um cara que começou igual você, no mesmo ponto, fez isso\"","\"Sou referência no mercado há anos\""],r:1,
+   why:"Semelhança vence volume. O iniciante não se compara com dois mil desconhecidos, se compara com quem estava onde ele está."},
+  campo:"Troca um número genérico seu por um caso específico de alguém parecido com quem você quer alcançar.",
+  ajuste:{ok:"Registra qual caso funcionou e com que perfil. Prova social é por perfil, não é uma só pra todo mundo.",
+   fechou:"Talvez o caso não fosse parecido o bastante, ou a pessoa não estava insegura — prova social só pega quem está em dúvida.",
+   nao:"Escolhe uma pessoa real que você ajudou e escreve duas linhas sobre de onde ela partiu."}},
+ {id:"afinidade", tag:"ARMA 04 — AFINIDADE",
+  atomo:"A gente diz sim pra quem gosta. E gostar vem de três coisas: semelhança real, elogio específico, e ter trabalhado junto por alguma coisa.",
+  erro:"Elogio genérico. Ele soa como técnica e derruba a confiança em tudo que vem depois.",
+  conf:{q:"Qual elogio constrói afinidade de verdade?",
+   opts:["\"Você é uma pessoa incrível\"","\"Aquela sua resposta sobre o preço me fez mudar a minha\"","\"Adoro tudo que você faz\""],r:1,
+   why:"Específico prova que você prestou atenção. Genérico prova só que você quer alguma coisa."},
+  campo:"Faz um elogio específico hoje, apontando uma coisa concreta que a pessoa fez. Sem pedir nada na sequência.",
+  ajuste:{ok:"Funcionou porque foi específico. Guarda o padrão: um comportamento observado, não um adjetivo sobre a pessoa.",
+   fechou:"Se soou puxa-saco, veio junto com um pedido ou foi genérico demais. Separa: elogio hoje, pedido outro dia.",
+   nao:"Pega a última mensagem que alguém te mandou e acha uma coisa concreta ali pra citar."}},
+ {id:"autoridade", tag:"ARMA 05 — AUTORIDADE",
+  atomo:"Autoridade demonstrada vale mais que declarada. E admitir uma falha pequena antes aumenta a credibilidade de tudo que vem depois.",
+  erro:"Listar credenciais. Mostrar que você entende o problema da pessoa melhor que ela vale muito mais.",
+  conf:{q:"Você quer credibilidade rápido. O que funciona melhor?",
+   opts:["Listar seus resultados de cara","Nomear o problema dela melhor do que ela nomeou","Falar com bastante convicção"],r:1,
+   why:"Quem descreve o problema com mais precisão que o dono do problema demonstra domínio. Credencial só afirma."},
+  campo:"Numa conversa hoje, nomeia o problema da pessoa melhor do que ela nomeou. Antes de oferecer solução.",
+  ajuste:{ok:"Testa a versão avançada: admite uma limitação pequena e real antes do ponto forte. Sobe a confiança no resto.",
+   fechou:"Se soou como diagnóstico não pedido, virou veredito. Fecha com pergunta: \"é isso ou eu li errado?\"",
+   nao:"Escreve o problema de um cliente em uma frase, do jeito que ele nunca conseguiria escrever."}},
+ {id:"escassez", tag:"ARMA 06 — ESCASSEZ",
+  atomo:"Perder pesa mais que ganhar o mesmo tanto. Por isso o que pode acabar chama mais atenção que o que está sobrando.",
+  erro:"Escassez inventada. Quando cai por terra uma vez, mata todos os outros gatilhos junto e não volta.",
+  conf:{q:"Qual frase usa escassez de forma que sobrevive à checagem?",
+   opts:["\"Últimas vagas!\" toda semana","\"Fecho as vagas sexta porque só acompanho 5 por vez\"","\"Promoção por tempo limitado\""],r:1,
+   why:"A segunda tem razão verificável e limite real. As outras duas são afirmação sem lastro — e a pessoa confere."},
+  campo:"Se você tem um limite real, diz ele com o motivo junto. Se não tem, não inventa hoje.",
+  ajuste:{ok:"Mantém a regra: todo limite que você anunciar tem que ser cumprido na frente das mesmas pessoas.",
+   fechou:"Provavelmente a pessoa já viu esse tipo de frase mil vezes. Troca urgência por exclusividade concreta.",
+   nao:"Certo. Sem limite real, não usar é a jogada — escassez falsa custa mais caro que não usar."}},
+ {id:"unidade", tag:"ARMA 07 — UNIDADE",
+  atomo:"Mais forte que gostar: ser do mesmo grupo. Unidade não é semelhança, é identidade compartilhada — família, time, cidade, história vivida junto.",
+  erro:"Dizer \"nós\" sem que exista um nós. Some na hora.",
+  conf:{q:"O que é unidade e não só afinidade?",
+   opts:["\"A gente gosta das mesmas coisas\"","\"A gente passou pela mesma coisa e ninguém mais entende\"","\"Você parece gente boa\""],r:1,
+   why:"Afinidade é parecer. Unidade é pertencer — passar junto por algo que separa quem viveu de quem não viveu."},
+  campo:"Identifica um grupo real que você divide com alguém e nomeia ele em voz alta hoje.",
+  ajuste:{ok:"Guarda qual identidade compartilhada funcionou. Ela costuma valer mais que qualquer argumento seu.",
+   fechou:"O \"nós\" não existia pra pessoa, só pra você. Volta pra afinidade, que é mais barata e mais rápida de construir.",
+   nao:"Pensa em uma pessoa e responde: o que vocês dois viveram que quase ninguém em volta viveu?"}}
+]},
+porta:{nome:"A porta", sub:"por que a sinceridade fecha a pessoa. e como entrar sem arrombar.", itens:[
+ {id:"reatancia", tag:"PORTA 01 — REATÂNCIA",
+  atomo:"Quando a pessoa sente que perdeu a liberdade de escolher, ela empurra pro lado contrário — mesmo quando concorda com você por dentro.",
+  erro:"\"Você tem que.\" A frase certa na forma errada vira ataque à liberdade dela.",
+  conf:{q:"Você falou uma verdade e a pessoa se fechou mais. O mais provável é:",
+   opts:["A verdade estava errada","Ela sentiu que perdeu a escolha","Ela não é inteligente o bastante"],r:1,
+   why:"Isso é reatância. O conteúdo até passou; a forma tirou a saída dela. Quanto mais certeza na sua voz, mais ela precisa recuperar a liberdade dizendo não."},
+  campo:"Hoje, troca um \"você tem que X\" por \"faz sentido pra você X, ou tem outro caminho?\"",
+  ajuste:{ok:"Guarda essa forma. Devolver a escolha explicitamente é o que desarma — mesmo quando só existe um caminho bom.",
+   fechou:"Ainda tinha veredito na frase. Confere se você deu opção de verdade ou só maquiou a ordem.",
+   nao:"Escreve a frase que você ia dizer e reescreve ela com a escolha devolvida no fim."}},
+ {id:"identidade", tag:"PORTA 02 — COMPORTAMENTO, NÃO PESSOA",
+  atomo:"Descreva o que a pessoa fez, não o que ela é. \"Você chegou tarde três vezes\" pede resposta. \"Você é relaxado\" pede defesa.",
+  erro:"Sinceridade em forma de veredito sobre quem a pessoa é. É a forma que você mais recebeu quando criança — e a que menos funcionou.",
+  conf:{q:"Qual das duas a pessoa consegue receber?",
+   opts:["\"Você é desorganizado\"","\"Os últimos três arquivos vieram sem nome de versão\"","\"Você nunca se importa com detalhe\""],r:1,
+   why:"Comportamento é conferível e mudável. Identidade não: se você diz o que ela é, a única resposta possível é defender quem ela é."},
+  campo:"Pega uma crítica que você quer fazer e reescreve ela como comportamento observado, com número se der.",
+  ajuste:{ok:"Essa é a peça mais reaproveitável do módulo. Usa em toda conversa difícil, inclusive com você mesmo.",
+   fechou:"Confere se sobrou adjetivo na frase. Um só já reabre a defesa.",
+   nao:"Escreve a crítica crua primeiro. Depois risca todo adjetivo e vê o que sobra."}},
+ {id:"permissao", tag:"PORTA 03 — BATER ANTES",
+  atomo:"Pedir permissão muda o jogo: \"posso te falar uma coisa que talvez incomode?\" Quem disse sim entrou por vontade própria e já não está se defendendo.",
+  erro:"Entrar sem bater. Aí a primeira reação da pessoa é fechar a porta, não ouvir o recado.",
+  conf:{q:"Por que pedir permissão funciona?",
+   opts:["Porque é educado","Porque a pessoa escolhe ouvir, então não precisa se defender da escolha","Porque suaviza a crítica"],r:1,
+   why:"Não é etiqueta nem suavizante. É devolver a autoria: ela escolheu abrir, então a informação entra como pedida, não como imposta."},
+  campo:"Antes da próxima verdade difícil hoje, pede a porta. Espera a resposta antes de falar.",
+  ajuste:{ok:"Mantém o intervalo: pede, cala, espera. A pausa é parte da técnica — sem ela vira aviso, não pedido.",
+   fechou:"Se você pediu e já emendou a frase, não houve escolha real. Espera a resposta.",
+   nao:"Decora a frase: \"posso te falar uma coisa que talvez incomode?\" Só isso."}},
+ {id:"acertou", tag:"PORTA 04 — O QUE ELA ACERTOU",
+  atomo:"Antes da crítica, nomeia uma coisa específica que a pessoa acertou. Ego reforçado recebe informação ameaçadora muito melhor que ego exposto.",
+  erro:"Elogio genérico colado com \"mas\". O \"mas\" apaga tudo que veio antes — a pessoa só escuta o que vem depois.",
+  conf:{q:"Qual abertura funciona?",
+   opts:["\"Você é ótimo, mas...\"","\"A parte do preço você resolveu melhor que eu resolveria. Sobre o prazo, tenho uma leitura diferente\"","\"Não leva a mal, mas...\""],r:1,
+   why:"Específico e sem \"mas\". Trocar o mas por um ponto final mantém as duas informações inteiras."},
+  campo:"Na próxima conversa difícil, começa por uma coisa concreta que a pessoa acertou. E não usa \"mas\".",
+  ajuste:{ok:"Vira padrão. O reconhecimento tem que ser verdadeiro e específico, senão inverte e vira sinal de que vem porrada.",
+   fechou:"Provavelmente ficou genérico ou entrou o \"mas\". Confere as duas coisas.",
+   nao:"Escreve só a primeira frase, a do reconhecimento. Sem a crítica ainda."}},
+ {id:"pergunta", tag:"PORTA 05 — PERGUNTA, NÃO VEREDITO",
+  atomo:"Quem descobre sozinho não resiste. Pergunta transfere a autoria da conclusão pra pessoa — e ninguém briga com a própria conclusão.",
+  erro:"Entregar a conclusão pronta. Mesmo certa, ela chega como coisa sua, não dela.",
+  conf:{q:"Você quer que alguém veja que está se sabotando. O que funciona?",
+   opts:["\"Você está se sabotando\"","\"O que acontece no segundo seguinte ao erro?\"","\"Todo mundo faz isso, é normal\""],r:1,
+   why:"A pergunta faz a pessoa chegar na cena sozinha. Aí a conclusão é dela, e ela defende em vez de atacar."},
+  campo:"Substitui uma conclusão sua por uma pergunta que leve a pessoa até lá. Uma só.",
+  ajuste:{ok:"Segura a vontade de completar a frase dela. A pausa depois da pergunta é onde o trabalho acontece.",
+   fechou:"Talvez a pergunta já tivesse a resposta embutida. Pergunta retórica é veredito disfarçado, e a pessoa percebe.",
+   nao:"Pega a última conclusão que você entregou pronta e escreve a pergunta que levaria até ela."}},
+ {id:"plateia", tag:"PORTA 06 — TEMPO E PLATEIA",
+  atomo:"Em público a pessoa defende a posição, não a verdade: tem uma imagem pra proteger. E cansada, ninguém revisa nada.",
+  erro:"Falar a coisa certa na hora errada e concluir que a pessoa é fechada.",
+  conf:{q:"Mesma verdade, mesma pessoa. Onde ela é mais aceita?",
+   opts:["No grupo, pra todo mundo aprender","No particular, com a pessoa descansada","Na hora do conflito, no calor"],r:1,
+   why:"Sem plateia não há imagem a defender, e descansada existe capacidade de revisar. A mesma frase muda de resultado só com isso."},
+  campo:"Escolhe uma conversa difícil e marca ela pro momento certo: particular e com a pessoa descansada.",
+  ajuste:{ok:"Anota o horário que funcionou com essa pessoa. Cada uma tem uma janela, e ela é bem estável.",
+   fechou:"Confere se era mesmo particular. Uma terceira pessoa no ambiente já conta como plateia.",
+   nao:"Só define quando e onde. A conversa fica pra depois."}}
+]},
+corpo:{nome:"O corpo", sub:"leitura e adaptação. sem dicionário de gestos, que não existe.", itens:[
+ {id:"baseline", tag:"CORPO 01 — LINHA DE BASE",
+  atomo:"Não existe gesto que significa mentira. Existe desvio do padrão daquela pessoa. Sem conhecer o normal dela, todo sinal é chute.",
+  erro:"Ler gesto isolado como dicionário. É o erro que faz gente confiante interpretar tudo errado.",
+  conf:{q:"Alguém cruza os braços enquanto você fala. O que significa?",
+   opts:["Que está fechada pro que você diz","Nada ainda — depende do padrão dela e do contexto","Que está mentindo"],r:1,
+   why:"Pode ser frio, hábito, ou postura de sempre. Só vira sinal se ela não faz isso normalmente e mudou agora."},
+  campo:"Observa uma pessoa por dois minutos hoje e anota o padrão dela em repouso. Só o padrão, sem interpretar.",
+  ajuste:{ok:"Repete com a mesma pessoa outro dia. Duas amostras já te dão base pra notar desvio de verdade.",
+   fechou:"Se você interpretou em vez de observar, refaz: só descreve o que a câmera veria.",
+   nao:"Faz com alguém da sua casa. Dois minutos, sem conversa."}},
+ {id:"aberto", tag:"CORPO 02 — ABERTO E FECHADO",
+  atomo:"Tronco exposto e mãos visíveis lêem como abertura. Tronco protegido e mãos escondidas lêem como proteção. Vale pro que você emite, mais que pro que você lê.",
+  erro:"Passar o tempo todo tentando decifrar o outro e esquecer que o seu corpo também está emitindo.",
+  conf:{q:"Você quer que a pessoa relaxe. O caminho mais confiável é:",
+   opts:["Analisar os micro-gestos dela","Abrir o seu próprio tronco e deixar as mãos visíveis","Falar mais alto e firme"],r:1,
+   why:"Você controla o seu corpo, não o dela. E abertura tende a ser respondida com abertura — sem ninguém perceber que está acontecendo."},
+  campo:"Numa conversa hoje, deixa as mãos visíveis e o tronco desprotegido. Observa se o corpo dela acompanha.",
+  ajuste:{ok:"Repara quanto tempo levou pra ela acompanhar. Costuma ser rápido, e é um bom termômetro do estado dela.",
+   fechou:"Se não acompanhou, o assunto pesava mais que a postura. Volta pro módulo Porta.",
+   nao:"Só tira as mãos do bolso na próxima conversa. Isso já é a versão mínima."}},
+ {id:"espelho", tag:"CORPO 03 — ESPELHO COM ATRASO",
+  atomo:"Acompanhar a postura da pessoa com alguns segundos de atraso cria sintonia. Copiar gesto na hora é macaquear, e todo mundo percebe.",
+  erro:"Espelhar rápido e gesto a gesto. Vira imitação e destrói a confiança de uma vez.",
+  conf:{q:"Como espelhar sem parecer imitação?",
+   opts:["Copiar o gesto na hora que ele acontece","Acompanhar a postura geral alguns segundos depois","Repetir as palavras dela"],r:1,
+   why:"Postura e ritmo, com atraso. O cérebro registra a sintonia sem que ninguém consiga apontar o que aconteceu."},
+  campo:"Numa conversa hoje, acompanha a postura da pessoa com uns 4 segundos de atraso. Postura, não gesto.",
+  ajuste:{ok:"Testa o próximo passo: muda a sua postura e vê se ela segue. Se seguir, você virou a referência da conversa.",
+   fechou:"Se ficou estranho, foi rápido demais ou detalhado demais. Só o tronco e o ritmo bastam.",
+   nao:"Faz sentado, com uma pessoa de casa. Só a inclinação do tronco."}},
+ {id:"ritmo", tag:"CORPO 04 — RITMO E PAUSA",
+  atomo:"Falar um pouco mais devagar que o outro puxa ele pro seu ritmo. E a pausa depois de uma frase importante faz mais trabalho que repetir ela.",
+  erro:"Acelerar quando fica tenso. É o que você faz quando aperta — e acelerar sobe a tensão dos dois.",
+  conf:{q:"A pessoa está agitada e falando rápido. Você:",
+   opts:["Acompanha o ritmo dela pra criar sintonia","Fala um pouco mais devagar e deixa pausas","Fala mais rápido pra não perder o espaço"],r:1,
+   why:"Sintonia total com agitação só amplifica. Um pouco mais devagar é sintonia com direção — ela desce até o seu ritmo sem perceber."},
+  campo:"Hoje, depois da sua frase mais importante, fica três segundos em silêncio. Conta na cabeça.",
+  ajuste:{ok:"Aumenta pra cinco segundos na próxima. O incômodo é seu, não dela — e é onde ela pensa.",
+   fechou:"Se a pessoa preencheu o silêncio com defesa, o problema era o conteúdo. Volta pra Porta 02.",
+   nao:"Treina sozinho em voz alta: uma frase, três segundos de silêncio, próxima frase."}},
+ {id:"angulo", tag:"CORPO 05 — ÂNGULO",
+  atomo:"Frente a frente é posição de confronto. Lado a lado, ou em ângulo, coloca vocês dois olhando pro problema em vez de um pro outro.",
+  erro:"Sentar de frente pra conversa difícil, na mesa, encarando. Você criou um tribunal sem querer.",
+  conf:{q:"Conversa difícil com alguém próximo. Melhor formato:",
+   opts:["Sentados de frente na mesa","Andando lado a lado","De pé, encarando"],r:1,
+   why:"Andando lado a lado o olhar tem pra onde ir, o corpo tem o que fazer, e o problema fica na frente dos dois. É por isso que conversa boa acontece no carro e caminhando."},
+  campo:"Marca a próxima conversa difícil andando ou lado a lado. Nunca de frente.",
+  ajuste:{ok:"Guarda como padrão pra assunto pesado. Você já sabe que pensa melhor andando — vale pro outro também.",
+   fechou:"Se não deu, o formato não salva conteúdo em forma de veredito. Confere a frase.",
+   nao:"Só troca a cadeira de lugar: em ângulo, não de frente."}},
+ {id:"calibra", tag:"CORPO 06 — CALIBRAGEM",
+  atomo:"Adapta ao estado da pessoa hoje, não ao tipo dela. O mesmo sujeito pede coisas diferentes cansado, com pressa, ou tranquilo.",
+  erro:"Classificar a pessoa uma vez e tratar sempre igual. Isso é rótulo, e rótulo é a mesma armadilha do \"você é\".",
+  conf:{q:"O que é calibrar de verdade?",
+   opts:["Descobrir o perfil da pessoa e usar sempre a mesma abordagem","Ler o estado dela agora e ajustar o ritmo e o tamanho da conversa","Ser sempre igual, autêntico"],r:1,
+   why:"Estado muda todo dia; tipo é rótulo. Calibrar é ajustar ritmo, tamanho e momento ao que está na sua frente agora."},
+  campo:"Antes da próxima conversa, responde em silêncio: essa pessoa está com pressa, cansada ou disponível? Ajusta o tamanho do que você ia dizer.",
+  ajuste:{ok:"Isso é o módulo inteiro condensado. Estado primeiro, conteúdo depois — igual você já faz com o seu próprio cansaço.",
+   fechou:"Se errou a leitura, pergunta em vez de adivinhar: \"é uma hora boa?\" custa dois segundos.",
+   nao:"Faz a pergunta em voz alta pra pessoa: \"você tem cinco minutos ou é melhor depois?\""}}
+]}};
+
+/* ═══════════ MOTOR DE LEITURA ═══════════ */
+const ABSTRATAS=["presença","presenca","disciplina","foco","produtividade","mentalidade","ansiedade","potencial","energia","raciocínio","raciocinio","aprendizado","aprender","conhecimento","consciência","consciencia","crença","crenca","autoconhecimento","motivação","motivacao","propósito","proposito","essência","essencia","evolução","evolucao","transformação","transformacao","bloqueio","gatilho","autossabotagem","procrastinação","procrastinacao","paciência","paciencia","dificuldade","esforço","esforco","capacidade","competência","competencia","inteligência","inteligencia","sabedoria","espiritualidade","intuição","intuicao","vibração","vibracao","abundância","abundancia","mindset","autocobrança","autocobranca","frustração","frustracao","superação","superacao","resiliência","resiliencia","empatia","conexão","conexao","clareza","constância","constancia","maturidade","mente","emoção","emocao","sentimento","pensamento","comportamento","padrão","padrao","processo","jornada","versão","versao"];
+const OK_SUF=["cidade","verdade","idade","metade","vontade","criança","crianca","saudade","novidade","qualidade","realidade","velocidade","quantidade","faculdade"];
+const limpa=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+
+function analisa(txt,camada,segundos){
+  const t=txt.trim(), palavras=t.split(/\s+/).filter(Boolean), n=palavras.length;
+  const low=" "+limpa(t)+" ", flags=[], achadas=[];
+  palavras.forEach(p=>{
+    const w=limpa(p).replace(/[^a-z]/g,"");
+    if(!w||w.length<5||OK_SUF.includes(w))return;
+    const lista=ABSTRATAS.includes(w), suf=/(cao|coes|ismo|encia|ancia)$/.test(w)&&w.length>6;
+    const lp=p.replace(/^[^\wÀ-ÿ]+|[^\wÀ-ÿ]+$/g,"");
+    if((lista||suf)&&!achadas.includes(lp))achadas.push(lp);
+  });
+  if(n<3&&!camada.curtaOk)flags.push({k:"sem caso",p:"faltou a cena. quando foi, e o que apareceu na sua frente?"});
+  if(n>45)flags.push({k:"discurso",p:"corta pela metade. fica só com o que a câmera filma."});
+  if(achadas.length)flags.push({k:"abstração: "+achadas.slice(0,3).join(", "),p:"a câmera não filma isso. troca por o que aconteceu."});
+  if(/\b(porque|porquê|pois|ja que|já que|por conta|visto que|uma vez que)\b/.test(low))
+    flags.push({k:"defesa",p:"tem justificativa. corta o porquê e vê se a frase para em pé."});
+  if(/\b(sempre|nunca|todo mundo|as pessoas|ninguem|todo dia|geralmente|normalmente|em geral)\b/.test(low))
+    flags.push({k:"regra, não caso",p:"isso é regra. qual foi o episódio?"});
+  if(/\b(acho que|talvez|meio que|sei la|de certa forma|pode ser que|mais ou menos)\b/.test(low))
+    flags.push({k:"hedge",p:"tirou o peso da frase. escreve sem o amortecedor."});
+  const temEu=/\b(eu|meu|minha|mim|comigo)\b/.test(low)||/\b\w{3,}ei\b/.test(low)||/\b\w{5,}i\b/.test(low)
+    ||/\b(fiz|tenho|estou|vou|falo|paro|fico|sinto|penso|lembro|preciso|quero|sei|posso|consigo|treino|acordo)\b/.test(low);
+  if(!temEu&&n>4)flags.push({k:"sem você",p:"cadê você na frase? quem fez o quê?"});
+  const ancora=/\b(ontem|hoje|anteontem|agora|semana passada|mes passado|mês passado|ano passado|de manha|de manhã|de noite|a noite|à noite|de tarde|a tarde|à tarde|segunda|terca|terça|quarta|quinta|sexta|sabado|sábado|domingo|na epoca|na época|quando eu tinha)\b|\d/.test(low);
+  if(!ancora&&n>=5&&!camada.curtaOk)flags.push({k:"sem âncora",p:"sem data. quando foi a última vez?"});
+  const despacho=segundos<6&&n<12&&!camada.curtaOk;
+  if(despacho)flags.push({k:"despacho",p:"respondeu em "+segundos+"s. essa é a versão invisível de parar."});
+  const pos=[];
+  if(ancora)pos.push("tem âncora");
+  if(/\d/.test(t))pos.push("tem número");
+  if(!achadas.length&&n>=3)pos.push("concreta");
+  if(temEu)pos.push("primeira pessoa");
+  return {n,segundos,flags,positivos:pos,despacho,limpo:flags.length===0};
+}
+
+/* ═══════════ ESTADO ═══════════ */
+const S={tela:"hub",mentor:null,camadas:[],i:0,respostas:[],chaves:{},gestos:0,dados:0,
+  streak:0,ritmo:0,pessoas:[],t0:0,liberado:false,feitos:{},atomosOk:[],conexoes:[],
+  psicoOk:[],missoes:[],ajustes:[],eticaOk:false,
+  ancoras:[],usos:0,sozinho:[],sozAtual:[],
+  falaOk:[],frases:[],banco:[]};
+
+/* ═══════════ O CICLO — mesma moldura em tudo ═══════════ */
+const PASSOS=[["ação","o que você fez"],["dado","o que voltou"],["ajuste","muda 1 peça"],["de novo","menor"]];
+function ciclo(ativo){
+  const colinha=S.usos<10;
+  return `<div class="ciclo">`+PASSOS.map((p,i)=>
+    `<div class="${i===ativo?'on':''}"><b>${i+1} ${p[0]}</b>${colinha?`<span>${p[1]}</span>`:``}</div>`).join("")+`</div>`;
+}
+
+/* ═══════════ ÂNCORA FÍSICA ═══════════ */
+function ancoraHTML(id){
+  const ja=S.ancoras.find(a=>a.id===id);
+  const colinha=S.usos<10;
+  return `<div class="anc">
+    <div class="who">âncora física</div>
+    ${ja?`<p class="fixa">↳ ${esc(ja.txt)}</p><p class="counts">toca nela ou faz o gesto e fala a peça em voz alta. uma vez agora.</p>`
+       :`<p class="counts">${colinha?"escolhe um objeto do teu espaço ou um gesto do teu corpo pra carregar essa peça. depois toca nele e fala a peça em voz alta — é isso que fixa.":"objeto ou gesto pra essa peça."}</p>
+    <input type="text" id="anc-in" placeholder="Ex.: a caneca azul · bater 2× no peito · o batente da porta">
+    <div class="row"><button id="anc-b">Ancorar</button></div>`}
+  </div>`;
+}
+function ancoraWire(id,tag){
+  const b=document.getElementById("anc-b"); if(!b)return;
+  b.onclick=()=>{
+    const v=document.getElementById("anc-in").value.trim(); if(!v)return;
+    S.ancoras=S.ancoras.filter(a=>a.id!==id);
+    S.ancoras.push({id,tag,txt:v});
+    const box=b.closest(".anc");
+    box.innerHTML=`<div class="who">âncora física</div><p class="fixa">↳ ${esc(v)}</p>
+      <p class="counts">agora vai lá. toca nela e fala a peça em voz alta. o corpo grava o que a leitura não grava.</p>`;
+    salvar();
+  };
+}
+const app=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function met(){
+  document.querySelector("#m-camadas b").textContent=S.respostas.length;
+  document.querySelector("#m-gestos b").textContent=S.gestos;
+  document.querySelector("#m-dados b").textContent=S.dados;
+  document.querySelector("#m-ritmo b").textContent=S.ritmo;
+  document.getElementById("m-ritmo").classList.toggle("on",S.ritmo>=3);
+  document.getElementById("m-gestos").classList.toggle("on",S.gestos>=3);
+  document.getElementById("m-dados").classList.toggle("on",S.dados>=1);
+}
+function voltar(){return `<button class="back" onclick="hub()">← início</button>`;}
+
+/* ═══════════ HUB ═══════════ */
+function hub(){
+  const fez=k=>S.feitos[k]?"menu done":"menu";
+  app.innerHTML=`
+  <div class="eyebrow" style="margin-top:22px"><b>FUNDAMENTOS</b><span>o app pergunta. você monta.</span></div>
+  <h1>Quebra até<br>o átomo</h1>
+  <p class="lede"><b>Musk:</b> o que é verdade se eu tirar o costume.<br>
+  <b>Branson:</b> o que o corpo já fez hoje.<br>
+  <b>Naval:</b> fundação antes de fronteira.<br>
+  <b>Ferriss:</b> a menor dose que ainda funciona.</p>
+
+  <p class="counts" style="margin-bottom:0">a mesma moldura em todo módulo:</p>
+  ${ciclo(-1)}
+
+  <h2>Crença</h2>
+  <button class="${fez('musk')}" onclick="abreMentor('musk')"><strong>Musk · desmontar</strong><span>9 camadas — da frase crua até o teste de 10 minutos</span></button>
+  <button class="${fez('branson')}" onclick="abreMentor('branson')"><strong>Branson · fazer</strong><span>5 camadas — sim pequeno, gesto agora, impacto, gente</span></button>
+  <button class="${fez('naval')}" onclick="abreMentor('naval')"><strong>Naval · compor</strong><span>4 camadas — conhecimento específico, alavanca, jogo longo</span></button>
+  <button class="${fez('ferriss')}" onclick="abreMentor('ferriss')"><strong>Ferriss · testar</strong><span>4 camadas — dose mínima, os 20%, medo escrito, medida</span></button>
+
+  <h2>Fundação</h2>
+  <p class="counts" style="margin-bottom:6px">os átomos que sustentam o resto. cada um é feito dos anteriores.</p>
+  <button class="${fez('mat')}" onclick="abreAtomos('mat')"><strong>Matemática · 10 átomos</strong><span>unidade → razão → porcentagem → composto → probabilidade</span></button>
+  <button class="${fez('fis')}" onclick="abreAtomos('fis')"><strong>Física · 10 átomos</strong><span>grandeza → energia → força → trabalho → potência → pressão</span></button>
+
+  <h2>Gente</h2>
+  <p class="counts" style="margin-bottom:6px">por que a sinceridade às vezes fecha a pessoa — e o que fazer com isso.</p>
+  <button class="${S.psicoOk.filter(x=>PSICO.armas.itens.some(u=>u.id===x)).length===7?'menu done':'menu'}" onclick="abrePsico('armas')"><strong>As armas · 7 gatilhos</strong><span>reciprocidade, compromisso, prova social, afinidade, autoridade, escassez, unidade</span></button>
+  <button class="${S.psicoOk.filter(x=>PSICO.porta.itens.some(u=>u.id===x)).length===6?'menu done':'menu'}" onclick="abrePsico('porta')"><strong>A porta · 6 peças</strong><span>reatância, comportamento e não pessoa, permissão, pergunta em vez de veredito</span></button>
+  <button class="${S.psicoOk.filter(x=>PSICO.corpo.itens.some(u=>u.id===x)).length===6?'menu done':'menu'}" onclick="abrePsico('corpo')"><strong>O corpo · 6 peças</strong><span>linha de base, abertura, espelho com atraso, ritmo, ângulo, calibragem</span></button>
+
+  <h2>Fala</h2>
+  <p class="counts" style="margin-bottom:6px">vocabulário e estrutura de frase. dedução primeiro, decoreba nunca.</p>
+  <button class="menu" onclick="falaHub()"><strong>Palavra e molde</strong><span>a palavra em uso — você deduz, constrói a sua e leva pra voz</span></button>
+
+  <h2>Sozinho</h2>
+  <p class="counts" style="margin-bottom:6px">sem outra pessoa. qualquer assunto. você sobe até parar de sair coisa nova.</p>
+  <button class="menu" onclick="sozinho()"><strong>A escada · 6 degraus</strong><span>fato → por quê → mecanismo → o que gera → o que muda → menor teste</span></button>
+  <button class="menu" onclick="cardapio()"><strong>Cardápio de perguntas</strong><span>quando você trava e não sabe qual pergunta vem agora</span></button>
+
+  <h2>Máquina</h2>
+  <button class="menu" onclick="mapa()"><strong>Meu mapa</strong><span>âncoras, missões abertas, ajustes e cadeias — tudo num lugar</span></button>
+  <button class="menu" onclick="comoFunciona()"><strong>Como isso funciona</strong><span>o loop de feedback e os três níveis do lego</span></button>
+  <button class="menu" onclick="plano()"><strong>Plano do dia</strong><span>ações tiradas do que você escreveu hoje</span></button>
+  ${S.respostas.length?trilhaHTML():""}
+  <p class="counts" style="margin-top:20px;text-decoration:underline;cursor:pointer" onclick="reiniciar()">reiniciar progresso salvo</p>`;
+  met();
+}
+
+/* ═══════════ COMO FUNCIONA ═══════════ */
+function comoFunciona(){
+  app.innerHTML=`
+  ${voltar()}
+  <div class="eyebrow" style="margin-top:18px"><b>A MÁQUINA</b></div>
+  <h1>Loop e lego</h1>
+
+  <h2>O loop de feedback</h2>
+  <div class="card"><p class="loop">
+<b>1 · FATO</b>      o que aconteceu, filmável
+      ↓
+<b>2 · PEÇA</b>      de que isso é feito
+      ↓
+<b>3 · TESTE</b>     critério declarado ANTES
+      ↓
+<b>4 · DADO</b>      o que o mundo devolveu
+      ↓
+<b>5 · AJUSTE</b>    muda uma peça só
+      ↓
+   volta pro 1
+</p></div>
+  <p class="counts">o loop quebra em dois lugares. no <b>3</b>, quando você testa sem critério e explica o resultado depois. no <b>4</b>, quando o dado vira nota e você para de rodar.</p>
+
+  <h2>Erro no loop</h2>
+  <div class="card"><p>Erro não é a saída do loop. É a entrada do passo 4.<br><br>
+  Nota diz <b>quem você é</b>. Dado diz <b>o que aconteceu</b>. O mesmo evento, duas leituras — e só uma delas volta pro passo 5.</p></div>
+
+  <h2>Quebra lego · três níveis</h2>
+  <div class="card"><p class="loop">
+<b>BLOCO</b>   a frase inteira, do jeito que veio
+        "eu não aprendo"
+      ↓ do que é feito?
+<b>PEÇA</b>    ainda dá pra quebrar
+        erro · grito · repetição
+      ↓ do que é feito?
+<b>ÁTOMO</b>   não quebra mais
+        "errar dói"
+</p></div>
+  <p class="counts">chegou no átomo quando a próxima pergunta "do que isso é feito?" só devolve a mesma coisa com outro nome.<br><br>na fundação é igual: razão é átomo, porcentagem é peça feita dele. por isso porcentagem fica fácil depois — você já tem a peça de baixo.</p>
+
+  <h2>Prova e associação</h2>
+  <div class="card"><p>Duas coisas diferentes, as duas úteis:<br><br>
+  <b style="color:var(--text)">Prova</b> — sai da peça de baixo por dedução. Outra pessoa refaz e chega igual.<br><br>
+  <b style="color:var(--text)">Associação</b> — liga duas coisas por semelhança. Faz grudar na memória e não prova nada.<br><br>
+  Baralho: 13 copas em 52 é prova. Naipe como campo de personalidade é associação. Guarda as duas — em colunas separadas.</p></div>
+  <div class="row"><button class="primary" onclick="hub()">Voltar</button></div>`;
+}
+
+/* ═══════════ MENTORES ═══════════ */
+function abreMentor(k){S.mentor=k;S.camadas=MENTORES[k].camadas;S.i=0;camada();}
+
+function camada(usarMenor){
+  if(S.i>=S.camadas.length){S.feitos[S.mentor]=true;return fimMentor();}
+  const c=S.camadas[S.i], pergunta=usarMenor?c.menor:c.q;
+  S.liberado=false;
+  app.innerHTML=`
+  ${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>${esc(c.tag)}</b><span>${S.i+1}/${S.camadas.length}</span></div>
+  ${ciclo(0)}
+  <div class="qwrap"><p class="q">${esc(pergunta)}</p></div>
+  ${usarMenor?`<p class="counts">peça menor. a grande volta depois.</p>`:``}
+  <div class="conta"><b>Conta como resposta:</b> ${esc(c.conta)}</div>
+  <div class="gate"><i id="gfill"></i></div><div class="gatelabel" id="glabel">lendo…</div>
+  <textarea id="resp" disabled placeholder="Fala em voz alta primeiro. Depois escreve."></textarea>
+  <label class="voz"><input type="checkbox" id="vz"><span>Falei em voz alta antes de escrever</span></label>
+  <div class="row"><button class="primary" id="ok" disabled>Registrar</button><button id="menor">Quebra menor</button></div>
+  <details><summary>ver o que passa e o que não passa</summary>
+    <p class="ex bad"><em>não passa</em>${esc(c.bad)}</p>
+    <p class="ex good"><em>passa</em>${esc(c.good)}</p></details>
+  ${trilhaHTML()}`;
+  const ta=document.getElementById("resp"),ok=document.getElementById("ok"),vz=document.getElementById("vz");
+  gate(()=>{S.liberado=true;S.t0=Date.now();ta.disabled=false;document.getElementById("glabel").textContent="campo aberto";rev();});
+  function rev(){ok.disabled=!(S.liberado&&vz.checked&&ta.value.trim().length>0);}
+  ta.oninput=rev;vz.onchange=rev;
+  document.getElementById("menor").onclick=()=>{usarMenor?registra(c,"(pulei — ainda não tenho isso)",0,true):camada(true);};
+  ok.onclick=()=>registra(c,ta.value.trim(),Math.round((Date.now()-S.t0)/1000),false);
+}
+
+function gate(cb){
+  const fill=document.getElementById("gfill"),dur=4000;
+  const reduz=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const t0=Date.now();
+  const tick=setInterval(()=>{
+    const p=Math.min(1,(Date.now()-t0)/dur);
+    if(fill)fill.style.width=(p*100)+"%";
+    if(p>=1){clearInterval(tick);cb();}
+  },reduz?dur:60);
+}
+
+function registra(c,txt,seg,pulou){
+  const r=pulou?null:analisa(txt,c,seg);
+  if(r){ if(r.despacho||r.flags.length>=3)S.streak=0; else {S.streak++;if(S.streak>S.ritmo)S.ritmo=S.streak;} }
+  let corpo;
+  if(pulou) corpo=`<span class="k">registrado como buraco.</span>\nnão sabido ainda ≠ não existe.\n<span class="hit">→ volta nessa camada quando tiver um caso.</span>`;
+  else{
+    const head=`<span class="k">palavras</span> ${r.n} <span class="k">·</span> <span class="k">tempo</span> ${r.segundos}s`;
+    const pos=r.positivos.length?`\n<span class="ok">${r.positivos.join(" · ")}</span>`:"";
+    const fl=r.flags.slice(0,2).map(f=>`\n<span class="hit">${esc(f.k)}</span>\n  → ${esc(f.p)}`).join("");
+    corpo=r.limpo?`${head}${pos}\n\n<span class="ok">passou nos três testes.</span>\nrepete criança · filma câmera · sem porquê.`
+                 :`${head}${pos}${fl}\n\n<span class="k">isso é dado, não nota.</span>`;
+  }
+  app.innerHTML=`
+  ${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>LEITURA</b><span>${esc(c.tag)}</span></div>
+  ${ciclo(1)}
+  <div class="card"><p class="tq" style="font-size:12.5px;color:var(--steel);margin:0 0 6px;font-family:var(--mono)">${esc(c.q)}</p>
+    <p style="margin:0;font-size:17px;color:var(--text)">${esc(txt)}</p></div>
+  <div class="readout">${corpo}</div>
+  ${ancoraHTML("mentor:"+c.tag)}
+  <div class="row">${r&&!r.limpo?`<button id="re">Refazer com isso</button>`:``}<button class="primary" id="seg">Seguir</button></div>
+  <p class="counts">refazer não é apagar erro. é usar o dado.</p>`;
+  ancoraWire("mentor:"+c.tag,c.tag);
+  const re=document.getElementById("re"); if(re)re.onclick=()=>camada(false);
+  document.getElementById("seg").onclick=()=>{
+    S.respostas.push({tag:c.tag,q:c.q,a:txt});
+    if(c.chave)S.chaves[c.chave]=txt;
+    if(c.pessoa){const nm=txt.split(/[,.\n]/)[0].trim();if(nm&&nm.length<40)S.pessoas.push(nm);}
+    met();
+    if(c.gesto)gesto(c); else{S.i++;camada();}
+  };
+  met();
+}
+
+function gesto(c){
+  app.innerHTML=`
+  ${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>GESTO</b><span>Branson</span></div>
+  ${ciclo(3)}
+  <div class="card gesto"><div class="who">agora, de pé</div><p>${esc(c.gesto)}</p></div>
+  <p class="counts">o corpo primeiro. o entendimento vem no impacto.</p>
+  <div class="row"><button class="primary" id="fiz">Fiz</button><button class="ghost" id="nao">Não fiz</button></div>`;
+  document.getElementById("fiz").onclick=()=>{S.gestos++;S.i++;met();camada();};
+  document.getElementById("nao").onclick=()=>{S.streak=0;S.i++;met();camada();};
+}
+
+function fimMentor(){
+  app.innerHTML=`
+  ${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>TRILHA FECHADA</b><span>${esc(MENTORES[S.mentor].nome)}</span></div>
+  <h1>${S.respostas.length} camadas<br>${S.gestos} gestos</h1>
+  <p class="lede">Maior sequência sem despacho: <b>${S.ritmo}</b>.</p>
+  <div class="row"><button class="primary" onclick="plano()">Ver plano do dia</button><button onclick="hub()">Início</button></div>
+  ${trilhaHTML()}`;
+  met();
+}
+
+/* ═══════════ FUNDAÇÃO ═══════════ */
+function abreAtomos(k){
+  const g=ATOMOS[k];
+  app.innerHTML=`${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>FUNDAÇÃO</b><span>${esc(g.nome)}</span></div>
+  <h1>${esc(g.nome)}</h1><p class="lede">${esc(g.sub)}</p>
+  ${g.itens.map((a,i)=>`<button class="${S.atomosOk.includes(a.id)?'menu done':'menu'}" onclick="atomo('${k}',${i})">
+    <strong>${esc(a.tag.split("— ")[1])}</strong><span>${esc(a.atomo.split(".")[0])}.</span></button>`).join("")}
+  <p class="counts">cada átomo mostra de quais outros ele é feito. faz na ordem se for a primeira vez.</p>`;
+}
+
+function atomo(k,i){
+  const a=ATOMOS[k].itens[i];
+  const chain=a.feito.length?`feito de: <b>${a.feito.join(" + ")}</b>`:`não é feito de nada. é onde começa.`;
+  S.liberado=false;
+  app.innerHTML=`
+  <button class="back" onclick="abreAtomos('${k}')">← ${esc(ATOMOS[k].nome.toLowerCase())}</button>
+  <div class="eyebrow" style="margin-top:16px"><b>${esc(a.tag)}</b><span>${i+1}/${ATOMOS[k].itens.length}</span></div>
+  ${ciclo(0)}
+  <p class="atom">${esc(a.atomo)}</p>
+  <p class="chain">${chain}</p>
+  <div class="gate"><i id="gfill"></i></div><div class="gatelabel" id="glabel">lendo…</div>
+  <label class="fl">onde isso aparece na sua vida</label>
+  <p class="q" style="font-size:17px;margin:0 0 2px">${esc(a.onde)}</p>
+  <textarea id="onde" disabled placeholder="Um caso seu. Objeto, dia, número."></textarea>
+  ${a.calc?`<label class="fl">a conta</label>
+   <p class="q" style="font-size:17px;margin:0 0 4px">${esc(a.calc.q)}</p>
+   <input type="text" id="num" inputmode="decimal" disabled placeholder="só o número">`:``}
+  <label class="voz"><input type="checkbox" id="vz"><span>Falei o átomo em voz alta, com as minhas palavras</span></label>
+  <div class="row"><button class="primary" id="ok" disabled>Registrar</button></div>`;
+  const on=document.getElementById("onde"),nm=document.getElementById("num"),ok=document.getElementById("ok"),vz=document.getElementById("vz");
+  gate(()=>{S.liberado=true;S.t0=Date.now();on.disabled=false;if(nm)nm.disabled=false;
+    document.getElementById("glabel").textContent="campo aberto";rev();});
+  function rev(){ok.disabled=!(S.liberado&&vz.checked&&on.value.trim()&&(!nm||nm.value.trim()));}
+  on.oninput=rev;if(nm)nm.oninput=rev;vz.onchange=rev;
+  ok.onclick=()=>leituraAtomo(k,i,on.value.trim(),nm?nm.value.trim():null,Math.round((Date.now()-S.t0)/1000));
+}
+
+function leituraAtomo(k,i,onde,num,seg){
+  const a=ATOMOS[k].itens[i];
+  const r=analisa(onde,{},seg);
+  let bloco="";
+  if(a.calc){
+    const v=parseFloat(String(num).replace(",","."));
+    const acertou=!isNaN(v)&&Math.abs(v-a.calc.r)<=a.calc.tol;
+    if(!acertou)S.dados++;
+    bloco=acertou
+      ? `<span class="ok">${num} · fecha.</span>\n<span class="k">o caminho:</span> ${esc(a.calc.caminho)}\n`
+      : `<span class="hit">dado: você pôs ${esc(num)}, fecha em ${a.calc.r}.</span>\n<span class="k">o caminho:</span> ${esc(a.calc.caminho)}\n<span class="k">isso não é nota. é a peça que faltava.</span>\n`;
+  }
+  const pos=r.positivos.length?`<span class="ok">${r.positivos.join(" · ")}</span>\n`:"";
+  const fl=r.flags.slice(0,2).map(f=>`<span class="hit">${esc(f.k)}</span>\n  → ${esc(f.p)}\n`).join("");
+  S.usos++;
+  if(!S.atomosOk.includes(a.id))S.atomosOk.push(a.id);
+  S.feitos[k]=ATOMOS[k].itens.every(x=>S.atomosOk.includes(x.id));
+  const jaTem=S.respostas.findIndex(x=>x.tag===a.tag);
+  if(jaTem>=0)S.respostas[jaTem]={tag:a.tag,q:a.onde,a:onde};
+  else S.respostas.push({tag:a.tag,q:a.onde,a:onde});
+  app.innerHTML=`
+  <button class="back" onclick="abreAtomos('${k}')">← ${esc(ATOMOS[k].nome.toLowerCase())}</button>
+  <div class="eyebrow" style="margin-top:16px"><b>LEITURA</b><span>${esc(a.tag)}</span></div>
+  ${ciclo(1)}
+  <div class="readout">${bloco}${bloco?"\n":""}<span class="k">o seu caso:</span>\n${pos}${fl||`<span class="ok">concreto.</span>\n`}</div>
+  <label class="fl">conexão (opcional)</label>
+  <p class="counts" style="margin-top:0">isso te lembrou o quê? e é prova ou associação?</p>
+  <textarea id="cx" placeholder="Ex.: naipe e probabilidade — prova. Naipe e personalidade — associação."></textarea>
+  ${ancoraHTML("atomo:"+a.id)}
+  <div class="row">
+    <button class="primary" id="seg">${i+1<ATOMOS[k].itens.length?"Próximo átomo":"Fechar fundação"}</button>
+    <button class="ghost" onclick="hub()">Início</button></div>`;
+  met(); ancoraWire("atomo:"+a.id,a.tag);
+  document.getElementById("seg").onclick=()=>{
+    const cx=document.getElementById("cx").value.trim();
+    if(cx)S.conexoes.push({atomo:a.tag,txt:cx});
+    if(i+1<ATOMOS[k].itens.length)atomo(k,i+1); else abreAtomos(k);
+  };
+}
+
+/* ═══════════ TELAS: PSICOLOGIA ═══════════ */
+function abrePsico(g){
+  if(g==="armas"&&!S.eticaOk)return etica();
+  const G=PSICO[g];
+  app.innerHTML=`${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>PERSUASÃO</b><span>${esc(G.nome)}</span></div>
+  <h1>${esc(G.nome)}</h1><p class="lede">${esc(G.sub)}</p>
+  ${G.itens.map((u,i)=>`<button class="${S.psicoOk.includes(u.id)?'menu done':'menu'}" onclick="psicoUnidade('${g}',${i})">
+    <strong>${esc(u.tag.split("— ")[1])}</strong><span>${esc(u.atomo.split(".")[0])}.</span></button>`).join("")}
+  <p class="counts">teoria em uma frase · confirmação · missão · seu feedback · ajuste.</p>`;
+}
+
+function etica(){
+  app.innerHTML=`${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>ANTES DAS ARMAS</b></div>
+  <h1>Detetive,<br>não contrabandista</h1>
+  <p class="lede">O próprio Cialdini separa os dois. Vale ler antes de usar qualquer gatilho.</p>
+  <div class="card"><p><b style="color:var(--text)">Detetive</b> — o gatilho aponta pra algo que já é verdade. Você tem mesmo experiência, o limite existe mesmo, o caso aconteceu mesmo. Você só coloca luz onde já tinha coisa.<br><br>
+  <b style="color:var(--text)">Contrabandista</b> — o gatilho fabrica o que não existe. Escassez inventada, prova social plantada, autoridade de fachada.</p></div>
+  <div class="card"><p>O teste, e ele é prático: <b style="color:var(--text)">a pessoa ficaria bem se descobrisse exatamente o que você fez?</b><br><br>
+  Se sim, é influência e ela se sustenta. Se não, funciona uma vez e queima a fonte — a sua. Contrabandista não tem segundo cliente.</p></div>
+  <div class="row"><button class="primary" onclick="S.eticaOk=true;abrePsico('armas')">Entendi. Abrir as armas</button></div>`;
+}
+
+function psicoUnidade(g,i){
+  const u=PSICO[g].itens[i];
+  S.liberado=false;
+  app.innerHTML=`
+  <button class="back" onclick="abrePsico('${g}')">← ${esc(PSICO[g].nome.toLowerCase())}</button>
+  <div class="eyebrow" style="margin-top:16px"><b>${esc(u.tag)}</b><span>${i+1}/${PSICO[g].itens.length}</span></div>
+  ${ciclo(0)}
+  <p class="atom">${esc(u.atomo)}</p>
+  <p class="chain">erro comum: <b>${esc(u.erro)}</b></p>
+  <div class="gate"><i id="gfill"></i></div><div class="gatelabel" id="glabel">lendo…</div>
+  <label class="fl">confirmação</label>
+  <p class="q" style="font-size:18px;margin:0 0 6px">${esc(u.conf.q)}</p>
+  <div id="opts">${u.conf.opts.map((o,ix)=>`<button class="menu" disabled data-ix="${ix}" style="font-weight:500;font-size:16px">${esc(o)}</button>`).join("")}</div>`;
+  gate(()=>{S.liberado=true;S.t0=Date.now();
+    document.getElementById("glabel").textContent="escolhe";
+    document.querySelectorAll("#opts button").forEach(b=>{b.disabled=false;
+      b.onclick=()=>psicoLeitura(g,i,parseInt(b.dataset.ix,10));});});
+}
+
+function psicoLeitura(g,i,escolha){
+  const u=PSICO[g].itens[i], certo=escolha===u.conf.r;
+  if(!certo)S.dados++;
+  const corpo=certo
+    ? `<span class="ok">fecha.</span>\n<span class="k">por quê:</span> ${esc(u.conf.why)}`
+    : `<span class="hit">dado: você escolheu "${esc(u.conf.opts[escolha])}".</span>\n<span class="k">fecha em:</span> ${esc(u.conf.opts[u.conf.r])}\n<span class="k">por quê:</span> ${esc(u.conf.why)}\n<span class="k">isso não é nota. é a peça que faltava.</span>`;
+  app.innerHTML=`
+  <button class="back" onclick="abrePsico('${g}')">← ${esc(PSICO[g].nome.toLowerCase())}</button>
+  <div class="eyebrow" style="margin-top:16px"><b>LEITURA</b><span>${esc(u.tag)}</span></div>
+  ${ciclo(1)}
+  <div class="readout">${corpo}</div>
+  <div class="row">
+    ${certo?``:`<button onclick="psicoUnidade('${g}',${i})">Refazer</button>`}
+    <button class="primary" onclick="psicoCampo('${g}',${i})">Pegar a missão</button></div>
+  <p class="counts">teoria confirmada não é teoria aprendida. a missão é onde ela quebra ou aguenta.</p>`;
+  met();
+}
+
+function psicoCampo(g,i){
+  const u=PSICO[g].itens[i];
+  if(!S.missoes.some(m=>m.id===u.id))S.missoes.push({id:u.id,tag:u.tag,campo:u.campo,g:g,i:i});
+  app.innerHTML=`
+  <button class="back" onclick="abrePsico('${g}')">← ${esc(PSICO[g].nome.toLowerCase())}</button>
+  <div class="eyebrow" style="margin-top:16px"><b>CAMPO</b><span>${esc(u.tag)}</span></div>
+  ${ciclo(3)}
+  <div class="card gesto"><div class="who">missão · hoje</div><p>${esc(u.campo)}</p></div>
+  <p class="counts">com uma pessoa real. depois volta aqui e me conta o que aconteceu — o ajuste sai daí.</p>
+  <div class="row">
+    <button class="primary" onclick="psicoFeedback('${g}',${i})">Já fiz. Dar feedback</button>
+    <button class="ghost" onclick="abrePsico('${g}')">Fica pendente</button></div>`;
+}
+
+function psicoFeedback(g,i){
+  const u=PSICO[g].itens[i];
+  S.liberado=false;
+  app.innerHTML=`
+  <button class="back" onclick="abrePsico('${g}')">← ${esc(PSICO[g].nome.toLowerCase())}</button>
+  <div class="eyebrow" style="margin-top:16px"><b>SEU FEEDBACK</b><span>${esc(u.tag)}</span></div>
+  ${ciclo(1)}
+  <p class="q" style="margin-top:14px">O que a pessoa fez depois?</p>
+  <p class="counts" style="margin-bottom:4px">o que ela fez ou disse, não o que você sentiu.</p>
+  <textarea id="fb" placeholder="Ex.: ele parou, olhou, e respondeu com uma pergunta."></textarea>
+  <label class="fl">e no geral</label>
+  <div class="row" style="margin-top:2px">
+    <button onclick="psicoAjuste('${g}',${i},'ok')">Abriu</button>
+    <button onclick="psicoAjuste('${g}',${i},'fechou')">Fechou</button>
+  </div>
+  <div class="row" style="margin-top:6px">
+    <button class="ghost" onclick="psicoAjuste('${g}',${i},'nao')">Não cheguei a fazer</button></div>`;
+}
+
+function psicoAjuste(g,i,res){
+  const u=PSICO[g].itens[i];
+  const fb=(document.getElementById("fb")||{value:""}).value.trim();
+  const aj=u.ajuste[res];
+  S.usos++;
+  if(!S.psicoOk.includes(u.id)&&res!=="nao")S.psicoOk.push(u.id);
+  S.missoes=S.missoes.filter(m=>m.id!==u.id);
+  S.ajustes.push({tag:u.tag,res:res,ajuste:aj});
+  if(fb)S.respostas.push({tag:u.tag+" · campo",q:u.campo,a:fb});
+  let leitura="";
+  if(fb){const r=analisa(fb,{},30);
+    const fl=r.flags.slice(0,1).map(f=>`<span class="hit">${esc(f.k)}</span>\n  → ${esc(f.p)}\n`).join("");
+    leitura=(r.positivos.length?`<span class="ok">${r.positivos.join(" · ")}</span>\n`:"")+fl;}
+  const rot={ok:"abriu",fechou:"fechou",nao:"não feito"}[res];
+  app.innerHTML=`
+  <button class="back" onclick="abrePsico('${g}')">← ${esc(PSICO[g].nome.toLowerCase())}</button>
+  <div class="eyebrow" style="margin-top:16px"><b>AJUSTE</b><span>${esc(u.tag)}</span></div>
+  ${ciclo(2)}
+  <div class="readout">${leitura}<span class="k">resultado:</span> ${rot}\n\n<span class="hit">próximo passo</span>\n  → ${esc(aj)}</div>
+  <p class="counts">o ajuste saiu do que você reportou. se o resultado mudar, o passo muda junto.</p>
+  ${ancoraHTML("psico:"+u.id)}
+  <div class="row">
+    <button class="primary" onclick="${i+1<PSICO[g].itens.length?`psicoUnidade('${g}',${i+1})`:`abrePsico('${g}')`}">${i+1<PSICO[g].itens.length?"Próxima peça":"Fechar módulo"}</button>
+    <button class="ghost" onclick="plano()">Plano do dia</button></div>`;
+  met(); ancoraWire("psico:"+u.id,u.tag);
+}
+
+
+
+/* ═══════════ FALA — palavra, molde, construção ═══════════ */
+const PALAVRAS=[
+ {id:"pv1",w:"premissa",
+  usos:["A premissa do plano é que o cliente responde em 24h.",
+        "Se a premissa estiver errada, todo o resto desaba junto.",
+        "Ele concordou com a conclusão, mas não com a premissa."],
+  ok:[/base|ponto de partida|pressupost|suposi|come[çc]|antes|parte de|apoi|fundament|sustent|admit/i],
+  erros:[{re:/conclus|resultado|final|fim\b/i,
+          p:"Olha a frase 3: ele aceita a conclusão e recusa a premissa. Se as duas fossem a mesma coisa, essa frase poderia existir?"},
+         {re:/promessa|prometi/i,
+          p:"Promessa é outra palavra, cuidado com o som parecido. Na frase 2, o que desaba: algo que foi prometido, ou aquilo em que o resto estava apoiado?"}],
+  probes:["Na frase 2, quando ela está errada o resto desaba. Isso te diz que ela vem antes ou depois do resto?",
+          "Se você apagasse essa coisa da frase 1, o plano ainda ficaria de pé? Então ela é o quê para o plano?"],
+  ess:"Premissa é o que você aceita como verdade ANTES de argumentar. O resto se apoia nela.",
+  pede:"Uma premissa que você aceitou sem testar no seu trabalho ou no treino."},
+
+ {id:"pv2",w:"a rigor",
+  usos:["A rigor, isso não é um contrato, é um acordo verbal.",
+        "Todo mundo chama de fracasso. A rigor, foi um teste sem critério.",
+        "A rigor eu não perdi dinheiro, eu deixei de ganhar."],
+  ok:[/precis|exat|t[ée]cnic|rigor|correto|na verdade|estritamente|literal|se for ver|apurad/i],
+  erros:[{re:/rigoros|dur[oa]|sever|exigent|disciplin/i,
+          p:"Aqui não é sobre ser duro com ninguém. Nas três frases, o que vem depois de \"a rigor\" é sempre mais severo, ou sempre mais exato, que o que veio antes?"}],
+  probes:["Nas três frases, a segunda parte corrige a primeira. Corrige para ficar mais dramática ou para ficar mais precisa?",
+          "Se você trocasse por \"sendo bem preciso\", alguma das três quebraria?"],
+  ess:"\"A rigor\" abre uma correção técnica: o nome popular está solto, e você vai dar o nome exato.",
+  pede:"Uma coisa que você chama de um jeito no dia a dia mas que, a rigor, é outra."},
+
+ {id:"pv3",w:"contrapartida",
+  usos:["Ele libera o conteúdo antes. A contrapartida é o depoimento.",
+        "Quero o desconto, mas qual a contrapartida que você espera?",
+        "Trabalhar de casa tem a contrapartida de nunca desligar."],
+  ok:[/troca|em troca|o que d|pre[çc]o|custo|devolv|retribu|outro lado|dev[oe]|compensa|dar em/i],
+  erros:[{re:/contr[áa]rio|oposto|desvantagem apenas|problema/i,
+          p:"Olha a frase 1: o depoimento é o contrário do conteúdo, ou é o que a pessoa dá em troca dele?"}],
+  probes:["Nas três frases sempre tem duas coisas ligadas. A relação entre elas é de oposição, ou uma paga a outra?",
+          "Na frase 3 você recebe trabalhar de casa. O que você paga por isso?"],
+  ess:"Contrapartida é o que se dá em troca. Sempre tem duas pontas e uma paga a outra.",
+  pede:"Uma contrapartida que você paga hoje sem ter percebido que estava pagando."},
+
+ {id:"pv4",w:"por ora",
+  usos:["Por ora, mantém o preço. Mês que vem a gente revê.",
+        "Não vou responder isso por ora — falta dado.",
+        "Por ora funciona. Não sei se aguenta escala."],
+  ok:[/por enquanto|agora|no momento|temporar|provis[óo]r|at[ée]|ainda|neste momento|momentane/i],
+  erros:[{re:/nunca|jamais|definitiv|para sempre|pra sempre/i,
+          p:"Na frase 1, logo depois vem \"mês que vem a gente revê\". Isso soa como decisão definitiva para você?"},
+         {re:/porque|motivo|raz[ãa]o/i,
+          p:"Não é explicação de causa. Nas três frases, essa expressão está falando de tempo ou de motivo?"}],
+  probes:["As três frases têm um prazo escondido dentro delas. Esse prazo é longo ou curto?",
+          "Se você trocasse por \"por enquanto\", alguma frase mudaria de sentido?"],
+  ess:"\"Por ora\" marca decisão temporária, com revisão implícita. Você não fechou, você segurou.",
+  pede:"Uma decisão sua que é por ora e que você vem tratando como se fosse definitiva."},
+
+ {id:"pv5",w:"em tese",
+  usos:["Em tese, o método funciona. Ninguém testou aqui ainda.",
+        "Em tese ele é o responsável. Na prática, quem resolve sou eu.",
+        "Em tese dá para fazer em duas horas."],
+  ok:[/teoria|te[óo]ric|no papel|deveria|suposto|princ[íi]pio|pr[áa]tica|n[ãa]o test|nao test|ideal|papel/i],
+  erros:[{re:/certeza|comprovado|verdade absoluta|confirmado/i,
+          p:"Olha a frase 2: em tese ele é o responsável, mas na prática é você. Se fosse certeza confirmada, essa frase se sustentaria?"}],
+  probes:["Nas três frases sempre tem um contraste, dito ou escondido. Contraste entre o quê e o quê?",
+          "Na frase 3, o que está faltando para você poder afirmar que dá para fazer em duas horas de verdade?"],
+  ess:"\"Em tese\" marca o que vale no papel e ainda não passou pelo mundo real. É a bandeira de que falta teste.",
+  pede:"Algo que em tese você já domina, mas que nunca testou no campo."},
+
+ {id:"pv6",w:"por tabela",
+  usos:["Ele brigou com o chefe e eu paguei por tabela.",
+        "O post viralizou e o meu perfil cresceu por tabela.",
+        "Cortaram o orçamento e o meu projeto morreu por tabela."],
+  ok:[/indiret|consequ|efeito|resp[íi]ngo|sobra|colateral|reflex|sem ser o alvo|n[ãa]o era o alvo|junto|raspão|raspao/i],
+  erros:[{re:/direto|de prop[óo]sito|proposit|intencional/i,
+          p:"Na frase 1, quem brigou foi ele. Você era o alvo da briga, ou pegou o efeito de raspão?"}],
+  probes:["Nas três frases tem um alvo principal e alguém que sente o efeito sem ser o alvo. Quem é quem na frase 2?",
+          "O efeito chegou em você de propósito ou de repique?"],
+  ess:"\"Por tabela\" é efeito indireto: a coisa acertou outro alvo e respingou em você.",
+  pede:"Algo bom ou ruim que chegou em você por tabela nos últimos dias."},
+
+ {id:"pv7",w:"de saída",
+  usos:["De saída ele já disse que não tinha orçamento.",
+        "De saída o número parece alto, mas olha o retorno.",
+        "Descarto isso de saída: não resolve o problema principal."],
+  ok:[/logo de cara|come[çc]|in[íi]cio|primeir|de cara|na largada|imediat|j[áa] no|entrada|antes de/i],
+  erros:[{re:/sair|saindo|indo embora|final|fim\b/i,
+          p:"Cuidado com o sentido literal. Na frase 1, ele disse isso no fim da conversa ou logo no começo dela?"}],
+  probes:["Nas três frases, em que momento a coisa acontece: no começo ou no fim?",
+          "Se você trocasse por \"logo de cara\", alguma frase quebraria?"],
+  ess:"\"De saída\" é logo no começo, antes de qualquer aprofundamento. Marca a primeira reação.",
+  pede:"Uma coisa que você descartou de saída este mês — e vale conferir se descartou cedo demais."},
+
+ {id:"pv8",w:"pressuposto",
+  usos:["O pressuposto aí é que ele quer vender. E se não quiser?",
+        "Toda a estratégia tem um pressuposto não dito: que o público tem dinheiro.",
+        "Meu erro foi não questionar o pressuposto."],
+  ok:[/n[ãa]o dito|impl[íi]cit|escondid|assumid|dado como|sem dizer|por tr[áa]s|subentend|admitid|invis[íi]vel|silencios|calad/i],
+  erros:[{re:/igual|mesma coisa|sin[ôo]nimo/i,
+          p:"São primas, mas tem uma diferença fina. Na frase 2 aparecem duas palavras-chave sobre ele: \"não dito\". Uma premissa costuma ser declarada. E esse aqui?"}],
+  probes:["Na frase 2 tem uma pista de duas palavras sobre o pressuposto. Quais são, e o que elas dizem sobre ele?",
+          "Se ninguém falou ele em voz alta, como é que ele está sustentando a estratégia inteira?"],
+  ess:"Pressuposto é a premissa que ninguém declarou. Sustenta o argumento por baixo, calada.",
+  pede:"Um pressuposto não dito por trás de um plano seu atual."}
+];
+
+const MOLDES=[
+ {id:"md1",nome:"não é X, é Y",
+  para:"trocar a categoria da coisa no meio da frase. corrige o enquadramento sem brigar com a pessoa.",
+  ex:["Isso não é preço alto, é escopo grande.","Não foi falta de tempo, foi falta de critério."],
+  re:[/n[ãa]o\s+(é|foi|era|se trata|estou|est[áa]|sou)\s[^,.;]{2,70}[,;]\s*(é|foi|era|e sim|mas sim|se trata)/i],
+  pista:"precisa das duas metades e da vírgula: nega uma categoria, afirma outra no lugar.",
+  pede:"Use para reenquadrar uma coisa que te falaram esta semana."},
+
+ {id:"md2",nome:"o que muda é...",
+  para:"cortar a discussão e apontar a única variável que decide.",
+  ex:["Concordo com quase tudo. O que muda é o prazo.","O que muda o resultado aqui é a frequência, não o volume."],
+  re:[/o que (muda|decide|pesa|importa|resolve|define)\b/i],
+  pista:"começa nomeando a variável que decide: \"o que muda é...\".",
+  pede:"Aponte a variável que realmente decide num impasse que você tem hoje."},
+
+ {id:"md3",nome:"se A, então B — e é isso que...",
+  para:"encadear consequência e já dizer o que ela implica para a decisão.",
+  ex:["Se o custo dobra, a margem some — e é isso que inviabiliza o desconto.",
+      "Se ele não responde em três dias, não é prioridade — e é isso que muda a minha ordem."],
+  re:[/\bse\b[^.;]{3,90}\b(e é isso que|é isso que|logo|portanto|ent[ãa]o)\b/i],
+  pista:"três partes: a condição, a consequência, e o fecho que diz o que fazer com ela.",
+  pede:"Use numa decisão que você está adiando."},
+
+ {id:"md4",nome:"a rigor / na prática",
+  para:"separar o nome oficial da coisa do funcionamento real dela.",
+  ex:["A rigor eu sou o dono. Na prática, quem decide é o algoritmo.",
+      "Em tese o processo tem cinco etapas. Na prática são duas e um chute."],
+  re:[/(a rigor|em tese|no papel|oficialmente)[^.;]{3,90}[.;,][^.;]{0,90}\bna pr[áa]tica\b/i],
+  pista:"duas frases coladas: a versão oficial, e a versão que acontece de verdade.",
+  pede:"Aplique a algo do seu trabalho onde o oficial e o real não batem."},
+
+ {id:"md5",nome:"tanto quanto / mais do que",
+  para:"comparar o peso de duas coisas em vez de escolher uma e descartar a outra.",
+  ex:["O problema é a entrega tanto quanto o preço.","Isso me custou tempo mais do que dinheiro."],
+  re:[/(tanto quanto|mais do que|menos do que|tanto .{2,40} quanto)\b/i],
+  pista:"duas coisas na mesma frase e um peso declarado entre elas.",
+  pede:"Compare o peso de dois custos reais seus."},
+
+ {id:"md6",nome:"concessão + virada",
+  para:"reconhecer o ponto do outro e ainda assim segurar o seu. desarma sem ceder.",
+  ex:["Ainda que o número esteja certo, a leitura dele não fecha.",
+      "Mesmo que dê certo uma vez, não escala — e escala é o que eu preciso."],
+  re:[/\b(ainda que|mesmo que|embora|conquanto|se bem que)\b[^.;]{5,90}/i],
+  pista:"abre cedendo (\"ainda que\", \"mesmo que\", \"embora\") e vira depois da vírgula.",
+  pede:"Use para discordar de alguém sem atacar a pessoa."}
+];
+
+function falaHub(){
+  const okP=S.falaOk.filter(x=>x.indexOf("pv")===0).length, okM=S.falaOk.filter(x=>x.indexOf("md")===0).length;
+  app.innerHTML=`${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>FALA</b><span>${okP+okM+S.banco.filter(b=>b.ok).length} peças</span></div>
+  <h1>Palavra e<br>molde</h1>
+  <p class="lede">Não te dou o significado. Te dou a palavra em uso e aperto até você chegar nele. O que você deduz, fica.</p>
+  ${ciclo(-1)}
+  <h2>Palavras · ${okP}/${PALAVRAS.length}</h2>
+  <p class="counts" style="margin-bottom:6px">três frases reais. você diz o que a palavra está fazendo ali.</p>
+  ${PALAVRAS.map((p,i)=>`<button class="${S.falaOk.indexOf(p.id)>=0?'menu done':'menu'}" onclick="palavra(${i})">
+    <strong>${esc(p.w)}</strong><span>${S.falaOk.indexOf(p.id)>=0?esc(p.ess):"deduza o sentido pelo uso"}</span></button>`).join("")}
+  <h2>Moldes de frase · ${okM}/${MOLDES.length}</h2>
+  <p class="counts" style="margin-bottom:6px">estruturas, não frases prontas. você enche com a sua vida.</p>
+  ${MOLDES.map((m,i)=>`<button class="${S.falaOk.indexOf(m.id)>=0?'menu done':'menu'}" onclick="molde(${i})">
+    <strong>${esc(m.nome)}</strong><span>${esc(m.para)}</span></button>`).join("")}
+  <h2>Seu banco</h2>
+  <button class="menu" onclick="banco()"><strong>Palavra que você pegou por aí · ${S.banco.length}</strong><span>do livro, de um texto meu, de uma conversa — traz que eu te aperto nela</span></button>`;
+}
+
+function palavra(i,tent){
+  const p=PALAVRAS[i]; tent=tent||0;
+  app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+  <div class="eyebrow" style="margin-top:16px"><b>${esc(p.w.toUpperCase())}</b><span>${i+1}/${PALAVRAS.length}</span></div>
+  ${ciclo(0)}
+  <div class="card">${p.usos.map((u,ix)=>`<p style="margin:${ix?"10px":"0"} 0 0;font-size:16.5px;color:var(--text)"><span style="font-family:var(--mono);font-size:11.5px;color:var(--steel)">${ix+1}.</span> ${esc(u)}</p>`).join("")}</div>
+  <div class="qwrap"><p class="q">O que essa palavra está fazendo nessas frases?</p></div>
+  <p class="counts">com as suas palavras, sem procurar em lugar nenhum. chute vale — chute errado também é dado.</p>
+  <textarea id="dd" placeholder="Fala em voz alta primeiro. Depois escreve."></textarea>
+  <label class="voz"><input type="checkbox" id="vz"><span>Falei em voz alta antes de escrever</span></label>
+  <div class="row"><button class="primary" id="ok" disabled>É isso</button></div>`;
+  const ta=document.getElementById("dd"),ok=document.getElementById("ok"),vz=document.getElementById("vz");
+  function rev(){ok.disabled=!(vz.checked&&ta.value.trim().length>2);}
+  ta.oninput=rev;vz.onchange=rev;
+  ok.onclick=()=>checaPalavra(i,ta.value.trim(),tent);
+}
+
+function checaPalavra(i,txt,tent){
+  const p=PALAVRAS[i];
+  const acertou=p.ok.some(r=>r.test(txt));
+  const err=p.erros.filter(e=>e.re.test(txt))[0];
+  if(acertou&&!err)return palavraConstroi(i,txt);
+  S.dados++;
+  const probe=err?err.p:p.probes[Math.min(tent,p.probes.length-1)];
+  const ultima=tent>=2;
+  app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+  <div class="eyebrow" style="margin-top:16px"><b>AINDA NÃO</b><span>${esc(p.w)}</span></div>
+  ${ciclo(1)}
+  <div class="card"><p style="margin:0;font-size:16px">${esc(txt)}</p></div>
+  <div class="readout"><span class="hit">não vou te dar a resposta.</span>\nvou apertar num ponto:\n\n<span class="k">${esc(probe)}</span></div>
+  ${p.usos.map((u,ix)=>`<p class="counts" style="margin:2px 0">${ix+1}. ${esc(u)}</p>`).join("")}
+  <div class="row"><button class="primary" id="re">Tentar de novo</button>
+  ${ultima?`<button class="ghost" id="entrega">Travei de vez</button>`:``}</div>
+  <p class="counts">errar aqui não custa nada. é o único lugar onde sai de graça.</p>`;
+  document.getElementById("re").onclick=()=>palavra(i,tent+1);
+  const en=document.getElementById("entrega");
+  if(en)en.onclick=()=>{
+    app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+    <div class="eyebrow" style="margin-top:16px"><b>ESSÊNCIA</b><span>${esc(p.w)}</span></div>
+    ${ciclo(2)}
+    <div class="readout"><span class="ok">${esc(p.ess)}</span></div>
+    <div class="qwrap"><p class="q">Agora devolve com as suas palavras, sem repetir as minhas.</p></div>
+    <textarea id="rp" placeholder="Se copiar a minha frase, não fixou."></textarea>
+    <div class="row"><button class="primary" id="ok2">Registrar</button></div>`;
+    document.getElementById("ok2").onclick=()=>{
+      const v=document.getElementById("rp").value.trim(); if(v.length<3)return;
+      palavraConstroi(i,v);
+    };
+  };
+  met();
+}
+
+function palavraConstroi(i,leitura){
+  const p=PALAVRAS[i];
+  app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+  <div class="eyebrow" style="margin-top:16px"><b>CONSTRUÇÃO</b><span>${esc(p.w)}</span></div>
+  ${ciclo(3)}
+  <div class="readout"><span class="ok">sua leitura:</span>\n${esc(leitura)}</div>
+  <div class="qwrap"><p class="q">${esc(p.pede)}</p></div>
+  <p class="counts">frase inteira, usando a palavra, sobre a sua vida real. nada genérico.</p>
+  <textarea id="fr" placeholder="Uma frase. Sua."></textarea>
+  <label class="voz"><input type="checkbox" id="vz"><span>Vou falar essa frase em voz alta, calibrando o tom, antes de registrar</span></label>
+  <div class="row"><button class="primary" id="ok" disabled>Registrar</button></div>`;
+  const ta=document.getElementById("fr"),ok=document.getElementById("ok"),vz=document.getElementById("vz");
+  function rev(){ok.disabled=!(vz.checked&&ta.value.trim().length>5);}
+  ta.oninput=rev;vz.onchange=rev;
+  ok.onclick=()=>{
+    const v=ta.value.trim();
+    const usou=new RegExp(p.w.split(" ")[0],"i").test(v);
+    const copiou=p.usos.some(u=>u.toLowerCase().slice(0,25)===v.toLowerCase().slice(0,25));
+    const concreto=/\d|meu |minha |eu |ontem|hoje|ele |ela |cliente|treino|post|assinante|m[ãa]e|pai|namorada/i.test(v);
+    const fl=[];
+    if(!usou)fl.push("a palavra não apareceu na frase. sem ela não é o exercício, é outra coisa.");
+    if(copiou)fl.push("essa é a minha frase com a roupa trocada. qual é a sua?");
+    if(!concreto)fl.push("está genérica. quem, quando, quanto? sem âncora concreta a frase não gruda na fala.");
+    if(fl.length)return palavraFalha(i,v,leitura,fl);
+    if(S.falaOk.indexOf(p.id)<0)S.falaOk.push(p.id);
+    S.frases.push({id:p.id,tipo:"palavra",w:p.w,txt:v});
+    S.respostas.push({tag:"fala · "+p.w,q:p.pede,a:v});
+    S.usos++;
+    app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+    <div class="eyebrow" style="margin-top:16px"><b>FECHOU</b><span>${esc(p.w)}</span></div>
+    ${ciclo(3)}
+    <div class="readout"><span class="ok">sua frase:</span>\n${esc(v)}\n\n<span class="k">essência:</span> ${esc(p.ess)}</div>
+    <div class="card gesto"><div class="who">agora, em voz alta</div><p>Fala essa frase três vezes mudando o tom: neutro, firme, casual. Escolhe qual soa você e usa esse hoje com alguém.</p></div>
+    ${ancoraHTML("fala:"+p.id)}
+    <div class="row"><button class="primary" onclick="falaHub()">Próxima</button><button class="ghost" onclick="mapa()">Meu mapa</button></div>`;
+    ancoraWire("fala:"+p.id,"fala · "+p.w);
+    met(); salvar();
+  };
+}
+
+function palavraFalha(i,v,leitura,fl){
+  const p=PALAVRAS[i];
+  S.dados++;
+  app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+  <div class="eyebrow" style="margin-top:16px"><b>DADO</b><span>${esc(p.w)}</span></div>
+  ${ciclo(1)}
+  <div class="card"><p style="margin:0;font-size:16px">${esc(v)}</p></div>
+  <div class="readout">${fl.map(f=>`<span class="hit">${esc(f)}</span>`).join("\n\n")}</div>
+  <div class="row"><button class="primary" id="re">Refazer a frase</button></div>`;
+  document.getElementById("re").onclick=()=>palavraConstroi(i,leitura);
+  met();
+}
+
+function molde(i){
+  const m=MOLDES[i];
+  app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+  <div class="eyebrow" style="margin-top:16px"><b>MOLDE</b><span>${i+1}/${MOLDES.length}</span></div>
+  ${ciclo(0)}
+  <p class="atom">${esc(m.nome)}</p>
+  <p class="chain">serve para: <b>${esc(m.para)}</b></p>
+  <div class="card">${m.ex.map((e,ix)=>`<p style="margin:${ix?"9px":"0"} 0 0;font-size:16.5px;color:var(--text)">${esc(e)}</p>`).join("")}</div>
+  <div class="qwrap"><p class="q">Olhando os dois exemplos: qual é a peça que se repete nos dois?</p></div>
+  <p class="counts">a estrutura, não o assunto. o que os dois têm em comum na forma?</p>
+  <textarea id="es" placeholder="Ex.: os dois negam uma coisa e afirmam outra na sequência."></textarea>
+  <div class="row"><button class="primary" id="ok">É isso</button></div>`;
+  document.getElementById("ok").onclick=()=>{
+    const v=document.getElementById("es").value.trim(); if(v.length<3)return;
+    moldeConstroi(i,v);
+  };
+}
+
+function moldeConstroi(i,leitura){
+  const m=MOLDES[i];
+  app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+  <div class="eyebrow" style="margin-top:16px"><b>CONSTRUÇÃO</b><span>${esc(m.nome)}</span></div>
+  ${ciclo(3)}
+  <div class="readout"><span class="ok">o que você viu:</span>\n${esc(leitura)}\n\n<span class="k">a peça que se repete:</span> ${esc(m.pista)}</div>
+  <div class="qwrap"><p class="q">${esc(m.pede)}</p></div>
+  <p class="counts">monta a sua no mesmo molde. o app checa a estrutura, não o assunto.</p>
+  <textarea id="fr" placeholder="Sua frase, no molde."></textarea>
+  <label class="voz"><input type="checkbox" id="vz"><span>Vou falar em voz alta, calibrando o tom, antes de registrar</span></label>
+  <div class="row"><button class="primary" id="ok" disabled>Registrar</button></div>`;
+  const ta=document.getElementById("fr"),ok=document.getElementById("ok"),vz=document.getElementById("vz");
+  function rev(){ok.disabled=!(vz.checked&&ta.value.trim().length>5);}
+  ta.oninput=rev;vz.onchange=rev;
+  ok.onclick=()=>{
+    const v=ta.value.trim();
+    const bate=m.re.some(r=>r.test(v));
+    const copiou=m.ex.some(e=>e.toLowerCase().slice(0,22)===v.toLowerCase().slice(0,22));
+    if(!bate||copiou){
+      S.dados++;
+      app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+      <div class="eyebrow" style="margin-top:16px"><b>DADO</b><span>${esc(m.nome)}</span></div>
+      ${ciclo(1)}
+      <div class="card"><p style="margin:0;font-size:16px">${esc(v)}</p></div>
+      <div class="readout"><span class="hit">${copiou?"essa é a minha frase com as palavras trocadas.":"a estrutura não fechou."}</span>\n  → ${esc(m.pista)}\n\n<span class="k">compara com:</span> ${esc(m.ex[0])}\n<span class="k">o que falta na sua?</span></div>
+      <div class="row"><button class="primary" id="re">Refazer</button></div>`;
+      document.getElementById("re").onclick=()=>moldeConstroi(i,leitura);
+      met(); return;
+    }
+    if(S.falaOk.indexOf(m.id)<0)S.falaOk.push(m.id);
+    S.frases.push({id:m.id,tipo:"molde",w:m.nome,txt:v});
+    S.respostas.push({tag:"molde · "+m.nome,q:m.pede,a:v});
+    S.usos++;
+    app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+    <div class="eyebrow" style="margin-top:16px"><b>FECHOU</b><span>${esc(m.nome)}</span></div>
+    ${ciclo(3)}
+    <div class="readout"><span class="ok">sua frase:</span>\n${esc(v)}</div>
+    <div class="card gesto"><div class="who">missão de hoje</div><p>Usa essa frase, ou uma variação dela, numa conversa real hoje. Calibra o tom até sair sem parecer ensaiado.</p></div>
+    ${ancoraHTML("molde:"+m.id)}
+    <div class="row"><button class="primary" onclick="falaHub()">Próximo molde</button><button class="ghost" onclick="mapa()">Meu mapa</button></div>`;
+    ancoraWire("molde:"+m.id,"molde · "+m.nome);
+    met(); salvar();
+  };
+}
+
+function banco(){
+  app.innerHTML=`<button class="back" onclick="falaHub()">← fala</button>
+  <div class="eyebrow" style="margin-top:16px"><b>SEU BANCO</b><span>${S.banco.length}</span></div>
+  <h1>Palavra que<br>você pegou</h1>
+  <p class="lede">Achou uma palavra no livro, num texto meu, numa conversa? Joga aqui. Não te dou o significado — te faço deduzir e depois construir.</p>
+  <label class="fl">a palavra</label>
+  <input type="text" id="bw" placeholder="Ex.: latente">
+  <label class="fl">a frase onde você encontrou ela</label>
+  <textarea id="bf" placeholder="Copia a frase inteira do jeito que estava."></textarea>
+  <div class="row"><button class="primary" id="add">Trabalhar essa palavra</button></div>
+  ${S.banco.length?`<div class="hr"></div>${S.banco.slice().reverse().map(b=>`<div class="plan"><div class="pn">${esc(b.w)}${b.ok?" ✓":""}</div><p class="pt">${esc(b.frasePropria||b.frase)}</p></div>`).join("")}`:``}`;
+  document.getElementById("add").onclick=()=>{
+    const w=document.getElementById("bw").value.trim(), f=document.getElementById("bf").value.trim();
+    if(!w||!f)return;
+    S.banco.push({w:w,frase:f,ok:false}); salvar();
+    bancoDeduz(S.banco.length-1);
+  };
+}
+
+function bancoDeduz(ix){
+  const b=S.banco[ix];
+  app.innerHTML=`<button class="back" onclick="banco()">← banco</button>
+  <div class="eyebrow" style="margin-top:16px"><b>${esc(b.w.toUpperCase())}</b><span>sua palavra</span></div>
+  ${ciclo(0)}
+  <div class="card"><p style="margin:0;font-size:16.5px;color:var(--text)">${esc(b.frase)}</p></div>
+  <div class="readout"><span class="k">antes de procurar em qualquer lugar, responde os três:</span>\n\n<span class="hit">1.</span> Tira a palavra da frase. O que a frase perde?\n<span class="hit">2.</span> Que palavra comum você colocaria no lugar sem quebrar o sentido?\n<span class="hit">3.</span> Se ela existe além dessa substituta, o que ela tem que a comum não tem?</div>
+  <textarea id="d1" placeholder="Responde os três em sequência, na sua fala."></textarea>
+  <div class="row"><button class="primary" id="ok">Registrar minha leitura</button></div>`;
+  document.getElementById("ok").onclick=()=>{
+    const v=document.getElementById("d1").value.trim(); if(v.length<5)return;
+    if(v.split(/\s+/).length<8){
+      app.innerHTML=`<button class="back" onclick="banco()">← banco</button>
+      <div class="eyebrow" style="margin-top:16px"><b>CURTO DEMAIS</b><span>${esc(b.w)}</span></div>
+      ${ciclo(1)}
+      <div class="readout"><span class="hit">foram três perguntas, veio uma resposta.</span>\n  → a terceira é a que separa decorar de entender: o que essa palavra carrega que a palavra comum não carrega?</div>
+      <div class="row"><button class="primary" id="re">Voltar e completar</button></div>`;
+      document.getElementById("re").onclick=()=>bancoDeduz(ix); return;
+    }
+    b.minha=v; salvar();
+    app.innerHTML=`<button class="back" onclick="banco()">← banco</button>
+    <div class="eyebrow" style="margin-top:16px"><b>CONSTRUÇÃO</b><span>${esc(b.w)}</span></div>
+    ${ciclo(3)}
+    <div class="readout"><span class="ok">sua leitura:</span>\n${esc(v)}</div>
+    <div class="qwrap"><p class="q">Agora uma frase sua com ela, sobre a sua vida real.</p></div>
+    <textarea id="f2" placeholder="Uma frase. Concreta."></textarea>
+    <label class="voz"><input type="checkbox" id="vz"><span>Falei em voz alta, calibrando o tom</span></label>
+    <div class="row"><button class="primary" id="ok2" disabled>Registrar</button></div>`;
+    const ta=document.getElementById("f2"),ok2=document.getElementById("ok2"),vz=document.getElementById("vz");
+    function rev(){ok2.disabled=!(vz.checked&&ta.value.trim().length>5);}
+    ta.oninput=rev;vz.onchange=rev;
+    ok2.onclick=()=>{
+      const fv=ta.value.trim();
+      if(!new RegExp(b.w.split(" ")[0],"i").test(fv)){
+        app.innerHTML=`<button class="back" onclick="banco()">← banco</button>
+        <div class="eyebrow" style="margin-top:16px"><b>DADO</b><span>${esc(b.w)}</span></div>
+        ${ciclo(1)}
+        <div class="readout"><span class="hit">a palavra não apareceu na sua frase.</span>\n  → o exercício é usar ela, não falar sobre ela.</div>
+        <div class="row"><button class="primary" id="re2">Refazer</button></div>`;
+        document.getElementById("re2").onclick=()=>bancoDeduz(ix); return;
+      }
+      b.ok=true; b.frasePropria=fv;
+      S.frases.push({id:"bc"+ix,tipo:"banco",w:b.w,txt:fv});
+      S.usos++; salvar();
+      app.innerHTML=`<button class="back" onclick="banco()">← banco</button>
+      <div class="eyebrow" style="margin-top:16px"><b>FECHOU</b><span>${esc(b.w)}</span></div>
+      <div class="readout"><span class="ok">${esc(fv)}</span></div>
+      <div class="card gesto"><div class="who">hoje</div><p>Usa essa palavra uma vez em voz alta com alguém, hoje. Uma vez basta para ela sair do papel.</p></div>
+      ${ancoraHTML("banco:"+ix)}
+      <div class="row"><button class="primary" onclick="banco()">Outra palavra</button><button class="ghost" onclick="falaHub()">Fala</button></div>`;
+      ancoraWire("banco:"+ix,"palavra · "+b.w);
+      met();
+    };
+  };
+}
+
+/* ═══════════ SOZINHO — a escada de perguntas ═══════════ */
+const ESCADA=[
+ {t:"1 · O FATO", q:"O que aconteceu? Só o que uma câmera pegaria.",
+  dica:"sem interpretação, sem porquê ainda. o fato cru.",
+  ex:"Comi demais no domingo e acordei inchado."},
+ {t:"2 · POR QUÊ", q:"Por que isso aconteceu? A causa que você já sabe.",
+  dica:"a primeira resposta óbvia serve. ela é só o degrau.",
+  ex:"Comi muito mais caloria do que gastei."},
+ {t:"3 · COMO FUNCIONA", q:"Como essa causa funciona por dentro? Qual é o mecanismo?",
+  dica:"aqui é onde quase todo mundo para cedo. mecanismo, não nome.",
+  ex:"Excesso de caloria vira glicogênio, e cada grama de glicogênio segura ~3g de água."},
+ {t:"4 · O QUE ISSO GERA", q:"O que esse mecanismo gera, além do que você já tinha visto?",
+  dica:"a consequência que não estava na queixa original.",
+  ex:"A balança sobe sem eu ter ganhado gordura nenhuma."},
+ {t:"5 · O QUE MUDA PRA MIM", q:"Sabendo disso, o que muda na sua ação? Uma coisa só.",
+  dica:"se nada muda, você ainda não chegou no fundo — ou já passou dele.",
+  ex:"Não me peso no dia seguinte a comer fora."},
+ {t:"6 · O MENOR TESTE", q:"Qual o menor teste que mostra se isso é verdade? Critério declarado antes.",
+  dica:"número e prazo. sem isso não é teste, é opinião.",
+  ex:"Peso hoje e daqui a 3 dias. Se cair mais de 1kg, era água."}
+];
+
+function sozinho(){
+  S.sozAtual=[];
+  const nivel=S.sozinho.length;
+  app.innerHTML=`${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>SOZINHO</b><span>${nivel} cadeias fechadas</span></div>
+  <h1>A escada</h1>
+  <p class="lede">Sem outra pessoa. Qualquer assunto. Você sobe um degrau por vez até parar de sair coisa nova.</p>
+  <div class="card"><p><b style="color:var(--text)">O critério de parada:</b> quando a próxima resposta não muda mais nenhuma ação sua, você chegou no fundo. Parar antes é raso. Continuar depois é filosofia.</p></div>
+  ${nivel>=3?`<div class="card"><p><b style="color:var(--text)">Modo cru</b> — você já fechou ${nivel} cadeias. A partir daqui as colinhas e os exemplos somem. Se travar, tem um botão pra trazer de volta.</p></div>`:``}
+  <div class="row"><button class="primary" onclick="degrau(0)">Começar</button>
+  <button onclick="cardapio()">Ver o cardápio de perguntas</button></div>`;
+}
+
+function cardapio(){
+  app.innerHTML=`<button class="back" onclick="sozinho()">← sozinho</button>
+  <div class="eyebrow" style="margin-top:16px"><b>CARDÁPIO</b></div>
+  <h1>Que pergunta<br>vem agora</h1>
+  <p class="lede">Trava quando você não sabe qual perguntar. Esse é o menu inteiro — você escolhe, o app não decide por você.</p>
+  ${ESCADA.map(e=>`<div class="plan"><div class="pn">${esc(e.t)}</div><p class="pt">${esc(e.q)}</p><p class="pw">${esc(e.dica)}</p></div>`).join("")}
+  <div class="hr"></div>
+  <h2>Três perguntas de socorro</h2>
+  <div class="card"><p><b style="color:var(--text)">"E daí?"</b> — quando a resposta está certa mas não leva a lugar nenhum.<br><br>
+  <b style="color:var(--text)">"Como você sabe disso?"</b> — quando você não sabe se é prova ou coisa que ouviu falar.<br><br>
+  <b style="color:var(--text)">"O que teria que ser verdade pra isso estar errado?"</b> — quando você está gostando demais da própria resposta.</p></div>
+  <div class="row"><button class="primary" onclick="sozinho()">Voltar</button></div>`;
+}
+
+function degrau(i,semColinha){
+  if(i>=ESCADA.length)return fimSozinho();
+  const e=ESCADA[i];
+  const cru=S.sozinho.length>=3&&!semColinha;
+  S.liberado=false;
+  app.innerHTML=`<button class="back" onclick="sozinho()">← sozinho</button>
+  <div class="eyebrow" style="margin-top:16px"><b>${esc(e.t)}</b><span>${i+1}/${ESCADA.length}</span></div>
+  ${ciclo(i<2?0:(i<4?1:2))}
+  <div class="qwrap"><p class="q">${esc(e.q)}</p></div>
+  ${cru?``:`<div class="conta"><b>${esc(e.dica)}</b><br><span style="color:var(--steel)">exemplo: ${esc(e.ex)}</span></div>`}
+  ${S.sozAtual.length?`<details class="trail"><summary>degraus até aqui · ${S.sozAtual.length}</summary>`+
+    S.sozAtual.map(d=>`<div class="tr"><p class="tq">${esc(d.t)}</p><p class="ta">${esc(d.a)}</p></div>`).join("")+`</details>`:``}
+  <textarea id="dg" placeholder="Fala em voz alta. Depois escreve."></textarea>
+  <div class="row">
+    <button class="primary" id="ok">Próximo degrau</button>
+    <button id="fundo">Bati o fundo aqui</button></div>
+  ${cru?`<div class="row"><button class="ghost" onclick="degrau(${i},true)">Travei — traz a colinha</button></div>`:``}`;
+  const ta=document.getElementById("dg");
+  document.getElementById("ok").onclick=()=>{
+    const v=ta.value.trim(); if(!v)return;
+    S.sozAtual.push({t:e.t,q:e.q,a:v});
+    degrau(i+1);
+  };
+  document.getElementById("fundo").onclick=()=>{
+    const v=ta.value.trim(); if(v)S.sozAtual.push({t:e.t,q:e.q,a:v});
+    fimSozinho();
+  };
+}
+
+function fimSozinho(){
+  const cadeia=S.sozAtual.slice();
+  const acao=cadeia.find(d=>d.t.indexOf("MUDA")>=0), teste=cadeia.find(d=>d.t.indexOf("TESTE")>=0);
+  const id="soz:"+Date.now();
+  S.sozinho.push({id,quando:new Date().toISOString().slice(0,10),cadeia});
+  S.usos++;
+  const falta=[];
+  if(!acao)falta.push("você parou antes de dizer o que muda na sua ação — a cadeia ainda é conhecimento, não ferramenta.");
+  if(!teste)falta.push("sem teste com critério antes, a última resposta é palpite bem argumentado.");
+  app.innerHTML=`${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>CADEIA FECHADA</b><span>${cadeia.length} degraus</span></div>
+  ${ciclo(2)}
+  <div class="readout">${cadeia.map(d=>`<span class="k">${esc(d.t)}</span>\n  ${esc(d.a)}`).join("\n\n")}</div>
+  ${falta.length?`<div class="readout">${falta.map(f=>`<span class="hit">buraco</span>\n  → ${esc(f)}`).join("\n\n")}</div>`
+   :`<div class="readout"><span class="ok">cadeia inteira: fato → mecanismo → consequência → ação → teste.</span>\nessa aguenta ser contada pra outra pessoa.</div>`}
+  ${ancoraHTML(id)}
+  <div class="row"><button class="primary" onclick="sozinho()">Outra cadeia</button>
+  <button class="ghost" onclick="mapa()">Ver meu mapa</button></div>`;
+  ancoraWire(id,cadeia[0]?cadeia[0].a.slice(0,40):"cadeia");
+  met(); salvar();
+}
+
+/* ═══════════ MAPA — tudo num lugar só ═══════════ */
+function mapa(){
+  const anc=S.ancoras, mis=S.missoes, aju=S.ajustes.slice(-3).reverse(), soz=S.sozinho.slice(-3).reverse();
+  const vazio=!anc.length&&!mis.length&&!aju.length&&!soz.length;
+  app.innerHTML=`${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>MEU MAPA</b><span>tudo num lugar</span></div>
+  <h1>O que está<br>aberto</h1>
+  ${vazio?`<p class="lede">Ainda vazio. Fecha uma peça em qualquer módulo e ela aparece aqui.</p>`:``}
+
+  ${mis.length?`<h2>Missões pendentes</h2>${mis.map(m=>`<div class="plan"><div class="pn">${esc(m.tag)}</div><p class="pt">${esc(m.campo)}</p>
+    <p class="pw"><span style="text-decoration:underline;cursor:pointer" onclick="psicoFeedback('${m.g}',${m.i})">já fiz — dar feedback</span></p></div>`).join("")}`:``}
+
+  ${anc.length?`<h2>Corpo e espaço · ${anc.length}</h2>
+    <p class="counts" style="margin-bottom:8px">passa por elas uma vez por dia. toca, fala a peça em voz alta, segue.</p>
+    ${anc.slice().reverse().map(a=>`<div class="plan"><div class="pn">${esc(a.txt)}</div><p class="pw">${esc(a.tag)}</p></div>`).join("")}`:``}
+
+  ${aju.length?`<h2>Últimos ajustes</h2>${aju.map(a=>`<div class="plan"><div class="pn">${esc(a.tag)} · ${esc(a.res)}</div><p class="pt">${esc(a.ajuste)}</p></div>`).join("")}`:``}
+
+  ${S.frases.length?`<h2>Frases suas · ${S.frases.length}</h2>
+    <p class="counts" style="margin-bottom:8px">fala uma em voz alta agora. repetição espaçada é o que leva pra fala automática.</p>
+    ${S.frases.slice(-5).reverse().map(f=>`<div class="plan"><div class="pn">${esc(f.w)}</div><p class="pt">${esc(f.txt)}</p></div>`).join("")}`:``}
+
+  ${soz.length?`<h2>Cadeias fechadas</h2>${soz.map(s=>`<div class="plan"><div class="pn">${esc(s.quando)} · ${s.cadeia.length} degraus</div><p class="pt">${esc(s.cadeia[0]?s.cadeia[0].a:"")}</p>
+    <p class="pw">${esc(s.cadeia[s.cadeia.length-1]?s.cadeia[s.cadeia.length-1].a:"")}</p></div>`).join("")}`:``}
+
+  <div class="hr"></div>
+  <div class="row"><button class="primary" onclick="plano()">Plano do dia</button><button onclick="hub()">Início</button></div>`;
+  met();
+}
+
+/* ═══════════ PLANO DO DIA ═══════════ */
+function plano(){
+  const C=S.chaves, acoes=[];
+  const corta=(t,n)=>t.length>n?t.slice(0,n).trim()+"…":t;
+  if(C.frase&&C.criterio) acoes.push({n:"teste · 10 min",t:"Testa \""+corta(C.frase,50)+"\"",w:"Critério que você já declarou: "+corta(C.criterio,90)});
+  else if(C.frase) acoes.push({n:"teste · 10 min",t:"Declara o critério de \""+corta(C.frase,45)+"\"",w:"O que mata e o que prova. Antes de testar, não depois."});
+  if(C.nova) acoes.push({n:"frase nova · o dia todo",t:"Quando errar hoje, fala: \""+corta(C.nova,50)+"\"",w:"Em voz alta, na hora do erro. É onde a frase velha aparecia."});
+  if(C.sim) acoes.push({n:"gesto · agora",t:corta(C.sim,70),w:"De pé. Sem preparar. Volta e anota o que o corpo fez."});
+  if(C.dose) acoes.push({n:"dose mínima",t:"Só a dose: "+corta(C.dose,60),w:"Hoje você não faz a mais. Se sobrar vontade, guarda pra amanhã."});
+  if(C.basico) acoes.push({n:"fundação · 10 min",t:"Fecha o básico pulado: "+corta(C.basico,55),w:"Abre o átomo correspondente na Fundação e faz a conta."});
+  if(S.pessoas.length) acoes.push({n:"gente",t:"Manda uma mensagem pra "+esc(S.pessoas[0]),w:"Uma frase. Branson anota gente e depois usa o nome."});
+  if(C.especifico) acoes.push({n:"alavanca · 1 h",t:"Uma hora só no que se multiplica",w:"Perto de: "+corta(C.especifico,80)});
+  if(S.atomosOk.length) acoes.push({n:"ensinar",t:"Explica um átomo em voz alta pra alguém",w:"Último fechado: "+esc(S.atomosOk[S.atomosOk.length-1])+". Se travar na explicação, não fechou."});
+  if(C.medida) acoes.push({n:"medida · amanhã",t:"Olha o número: "+corta(C.medida,60),w:"Anota o valor de hoje agora, senão amanhã não tem com o que comparar."});
+  if(S.missoes.length) acoes.push({n:"campo · com gente",t:corta(S.missoes[0].campo,80),w:"Missão pendente de "+S.missoes[0].tag.split("— ")[1].toLowerCase()+". Depois volta e reporta o que a pessoa fez."});
+  if(S.ajustes.length) {const a=S.ajustes[S.ajustes.length-1];
+    acoes.push({n:"ajuste",t:corta(a.ajuste,90),w:"Saiu do seu feedback em "+a.tag.split("— ")[1].toLowerCase()+"."});}
+  if(S.ritmo<3&&S.respostas.length>=3) acoes.push({n:"presença · 5 min",t:"Uma leitura inteira, em voz alta, sem pular",w:"Seu ritmo hoje foi "+S.ritmo+". Despacho é a versão invisível de parar."});
+  const top=acoes.slice(0,4);
+  app.innerHTML=`
+  ${voltar()}
+  <div class="eyebrow" style="margin-top:16px"><b>PLANO DO DIA</b><span>${new Date().toLocaleDateString("pt-BR")}</span></div>
+  <h1>Hoje</h1>
+  ${top.length?top.map((a,ix)=>`<div class="plan"><div class="pn">${ix+1} · ${esc(a.n)}</div>
+     <p class="pt">${esc(a.t)}</p><p class="pw">${esc(a.w)}</p></div>`).join("")
+   :`<p class="lede">Ainda não tem material. Fecha pelo menos uma trilha ou um átomo — o plano sai do que você escreveu, não de um modelo pronto.</p>`}
+  ${top.length?`<p class="counts">tiradas das suas respostas de hoje. nada aqui foi inventado pelo app.</p>`:``}
+  <div class="hr"></div>
+  <div class="row"><button class="primary" id="cp">Copiar tudo</button><button class="ghost" onclick="hub()">Início</button></div>
+  <p class="counts" id="msg">markdown pronto pro Obsidian.</p>
+  ${trilhaHTML()}`;
+  const md="# Fundamentos — "+new Date().toLocaleDateString("pt-BR")+"\n\n## Plano do dia\n"+
+    (top.length?top.map((a,ix)=>(ix+1)+". **"+a.t+"** — "+a.w).join("\n"):"(sem material)")+
+    "\n\n## Camadas\n"+S.respostas.map(r=>"### "+r.tag+"\n"+r.q+"\n\n"+r.a+"\n").join("\n")+
+    (S.conexoes.length?"\n## Conexões\n"+S.conexoes.map(c=>"- "+c.atomo+": "+c.txt).join("\n"):"")+(S.frases.length?"\n\n## Frases construídas\n"+S.frases.map(f=>"- ["+f.w+"] "+f.txt).join("\n"):"")+
+    (S.ancoras.length?"\n\n## Âncoras físicas\n"+S.ancoras.map(a=>"- "+a.txt+" → "+a.tag).join("\n"):"")+
+    (S.sozinho.length?"\n\n## Cadeias\n"+S.sozinho.map(s=>"### "+s.quando+"\n"+s.cadeia.map(d=>"- "+d.t+": "+d.a).join("\n")).join("\n\n"):"")+
+    (S.ajustes.length?"\n\n## Ajustes de campo\n"+S.ajustes.map(a=>"- "+a.tag+" ("+a.res+"): "+a.ajuste).join("\n"):"")+
+    "\n\n---\ncamadas "+S.respostas.length+" · gestos "+S.gestos+" · dados "+S.dados+" · ritmo "+S.ritmo+
+    (S.pessoas.length?"\ngente: "+S.pessoas.join(", "):"");
+  document.getElementById("cp").onclick=async()=>{
+    const m=document.getElementById("msg");
+    try{await navigator.clipboard.writeText(md);m.textContent="copiado.";}
+    catch(e){const ta=document.createElement("textarea");ta.value=md;
+      ta.style.cssText="width:100%;min-height:220px;margin-top:12px";app.appendChild(ta);ta.select();
+      m.textContent="seleciona e copia daqui.";}
+  };
+  met();
+}
+
+function trilhaHTML(){
+  if(!S.respostas.length)return "";
+  return `<details class="trail"><summary>trilha · ${S.respostas.length} camadas</summary>`+
+    S.respostas.slice().reverse().map(r=>`<div class="tr"><p class="tq">${esc(r.tag)}</p><p class="ta">${esc(r.a)}</p></div>`).join("")+
+    `</details>`;
+}
+
+/* ═══════════ PERSISTÊNCIA ═══════════
+   dois caminhos: dentro do Claude usa window.storage.
+   arquivo baixado no celular usa o armazenamento do próprio navegador. */
+const CHAVE="fundamentos_estado_v1";
+async function salvar(){
+  const txt=JSON.stringify(S);
+  try{ if(window.storage) await window.storage.set("estado",txt); }catch(e){}
+  try{ localStorage.setItem(CHAVE,txt); }catch(e){}
+}
+async function carregar(){
+  let txt=null;
+  try{ if(window.storage){ const r=await window.storage.get("estado"); if(r&&r.value)txt=r.value; } }catch(e){}
+  if(!txt){ try{ txt=localStorage.getItem(CHAVE); }catch(e){} }
+  if(txt){ try{ Object.assign(S,JSON.parse(txt)); }catch(e){} }
+}
+async function reiniciar(){
+  if(!confirm("Isso apaga todo o progresso salvo. Confirma?"))return;
+  try{ if(window.storage) await window.storage.delete("estado"); }catch(e){}
+  try{ localStorage.removeItem(CHAVE); }catch(e){}
+  Object.assign(S,{tela:"hub",mentor:null,camadas:[],i:0,respostas:[],chaves:{},gestos:0,dados:0,
+    streak:0,ritmo:0,pessoas:[],t0:0,liberado:false,feitos:{},atomosOk:[],conexoes:[],
+    psicoOk:[],missoes:[],ajustes:[],eticaOk:false,
+    ancoras:[],usos:0,sozinho:[],sozAtual:[],
+    falaOk:[],frases:[],banco:[]});
+  hub();
+}
+carregar().then(hub);
+setInterval(salvar,4000);
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")salvar();});
+window.addEventListener("beforeunload",salvar);
+</script>
+</body>
+</html>
